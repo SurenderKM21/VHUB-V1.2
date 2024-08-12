@@ -1,5 +1,8 @@
  package com.example.demo.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
 // import com.example.demo.model.Booking;
 // import com.example.demo.service.BookingService;
 // import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +44,11 @@ public class BookingController {
         this.bookingService = bookingService;
     }
 
+    @GetMapping
+    public ResponseEntity<?> getAllBookings()
+    {
+     return new ResponseEntity<>(bookingService.getAllBookings(),HttpStatus.OK);
+    }
     @PostMapping
     public Booking createBooking(@RequestBody Booking booking) {
         return bookingService.createBooking(booking);

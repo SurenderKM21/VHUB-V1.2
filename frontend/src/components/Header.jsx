@@ -229,6 +229,7 @@ import { FaUserCircle } from 'react-icons/fa';
 const Header = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
+  const admin = useSelector((state)=>state.auth.isAdmin);
   const [showDropdown, setShowDropdown] = useState(false);
 
   const handleLogout = () => {
@@ -242,11 +243,11 @@ const Header = () => {
         {/* Add your logo here */}
       </div>
       <nav className="nav">
-        <Link to="/">Home</Link>
-        <Link to="/about">About Us</Link>
-        <Link to="/service">Services</Link>
-        {user && <Link to="/book">Book Now</Link>}
-        {user && <Link to="/feedback">Feedback</Link>} {/* Add feedback link here */}
+        {!admin && <Link to="/">Home</Link>}
+        {!admin && <Link to="/about">About Us</Link>}
+        {!admin && <Link to="/service">Services</Link>}
+        {user && !admin && <Link to="/book">Book Now</Link>}
+        {user && !admin && <Link to="/feedback">Feedback</Link>} 
         {user ? (
           <div className="user-menu">
             <FaUserCircle className="user-icon" />

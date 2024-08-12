@@ -539,6 +539,7 @@ import React, { useState, useEffect } from 'react';
 import './AdminDashboard.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTachometerAlt, faUsers, faCalendarCheck, faTools, faComments } from '@fortawesome/free-solid-svg-icons';
+import Services from './Services';
 
 const AdminDashboard = () => {
   const [activeSection, setActiveSection] = useState('dashboard');
@@ -552,10 +553,12 @@ const AdminDashboard = () => {
         return <UserManagement />;
       case 'bookings':
         return <BookingManagement />;
-      case 'services':
-        return <ServiceManagement />;
+      case 'technicians':
+        return <TechManagement />;
       case 'feedback':
         return <FeedbackSection />;
+      case 'services':
+        return <Services></Services>;
       default:
         return <DashboardOverview />;
     }
@@ -575,11 +578,14 @@ const AdminDashboard = () => {
           <li onClick={() => setActiveSection('bookings')} className={activeSection === 'bookings' ? 'active' : ''}>
             <FontAwesomeIcon icon={faCalendarCheck} className="icon" /> Booking Management
           </li>
-          <li onClick={() => setActiveSection('services')} className={activeSection === 'services' ? 'active' : ''}>
-            <FontAwesomeIcon icon={faTools} className="icon" /> Service Management
+          <li onClick={() => setActiveSection('technicians')} className={activeSection === 'technicians' ? 'active' : ''}>
+            <FontAwesomeIcon icon={faTools} className="icon" /> Technician Management
           </li>
           <li onClick={() => setActiveSection('feedback')} className={activeSection === 'feedback' ? 'active' : ''}>
             <FontAwesomeIcon icon={faComments} className="icon" /> Feedback
+          </li>
+          <li onClick={() => setActiveSection('services')} className={activeSection === 'feedback' ? 'active' : ''}>
+            <FontAwesomeIcon icon={faComments} className="icon" /> Services
           </li>
         </ul>
       </div>
@@ -599,12 +605,76 @@ const DashboardOverview = () => (
 );
 
 // Component for User Management
-const UserManagement = () => (
-  <div>
-    <h3>User Management</h3>
-    <p>Manage users and their roles here.</p>
-  </div>
-);
+const UserManagement = () => {
+  // <div>
+  //   <h3>User Management</h3>
+  //   <p>Manage users and their roles here.</p>
+
+  // </div>
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/api/users', {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
+
+        if (!response.ok) throw new Error('Failed to fetch bookings');
+
+        const userData = await response.json();
+        // console.log(' Data:', bookingsData); // Log the data
+        setUsers(userData); // Ensure this is the correct data structure
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching users:', error);
+        setError('Failed to load users');
+        setLoading(false);
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
+  if (loading) return <p>Loading users...</p>;
+  if (error) return <p>{error}</p>;
+
+  return (
+    <div>
+      <h3>Users Management</h3>
+      {users.length === 0 ? (
+        <p>No bookings available.</p>
+      ) : (
+        <table className="booking-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Address</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map((user) => (
+              <tr key={user.uid}>
+                <td>{user.uid}</td>
+                <td>{user.name}</td>
+                <td>{user.email}</td>
+                <td>{user.phone}</td>
+                <td>{user.address}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+    </div>
+  );
+};
 
 // Component for Booking Management
 const BookingManagement = () => {
@@ -679,62 +749,73 @@ const BookingManagement = () => {
   );
 };
 
-// Component for Service Management
-// Component for Service Management
-const ServiceManagement = () => {
-  const [services, setServices] = useState([]);
+const TechManagement = () => {
+  const [Technicians, setTechnicians] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchServices = async () => {
+    const fetchTechnicians = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/services', {
+        const response = await fetch('http://localhost:8080/Technicians', {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
           },
         });
 
-        if (!response.ok) throw new Error('Failed to fetch services');
+        if (!response.ok) throw new Error('Failed to fetch technicians');
 
         const servicesData = await response.json();
-        setServices(servicesData);
+        setTechnicians(servicesData);
         setLoading(false);
       } catch (error) {
-        console.error('Error fetching services:', error);
-        setError('Failed to load services');
+        console.error('Error fetching technicians:', error);
+        setError('Failed to load technicians');
         setLoading(false);
       }
     };
 
-    fetchServices();
+    fetchTechnicians();
   }, []);
 
-  if (loading) return <p>Loading services...</p>;
+  if (loading) return <p>Loading Technicians...</p>;
   if (error) return <p>{error}</p>;
 
   return (
     <div>
-      <h3>Service Management</h3>
-      {services.length === 0 ? (
-        <p>No services available.</p>
+      <h3>Technicians Management</h3>
+      {Technicians.length === 0 ? (
+        <p>No Technicians available.</p>
       ) : (
         <table className="service-table">
           <thead>
             <tr>
               <th>ID</th>
-              <th>Title</th>
-              <th>Description</th>
-              <th>Cost</th>
+              <th>Name</th>
+              <th>Phone</th>
+              <th>Expert</th>
+              <th>Gender</th>
+              <th>Email</th>
+              <th>Age</th>
+              <th>Experience</th>
+              <th>JoinDate</th>
+              <th>Address</th>
             </tr>
           </thead>
           <tbody>
-            {services.map((service) => (
-              <tr key={service.id}>
-                <td>{service.id}</td>
-                <td>{service.title}</td>
-                <td>{service.description}</td>
-                <td>{service.cost.toFixed(2)}</td>
+            {Technicians.map((tech) => (
+              <tr key={tech.tech_id}>
+                <td>{tech.tech_id}</td>
+                <td>{tech.name}</td>
+                <td>{tech.phone}</td>
+                <td>{tech.expert}</td>
+                <td>{tech.gender}</td>
+                <td>{tech.email}</td>
+                <td>{tech.age}</td>
+                <td>{tech.experience}</td>
+                <td>{tech.joindate}</td>
+                <td>{tech.address}</td>
+              
               </tr>
             ))}
           </tbody>

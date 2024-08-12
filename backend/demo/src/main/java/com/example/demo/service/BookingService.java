@@ -2,6 +2,8 @@
 
 
 
+import java.util.List;
+
 // import com.example.demo.model.Booking;
 // import com.example.demo.repo.BookingRepository;
 
@@ -48,5 +50,10 @@ public class BookingService {
         booking.setUser(user); // Set the user
 
         return bookingRepository.save(booking);
+    }
+    
+    public List<Booking> getAllBookings()
+    {
+       return bookingRepository.findAll();
     }
 }

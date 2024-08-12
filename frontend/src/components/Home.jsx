@@ -6,8 +6,8 @@ const Home = () => {
   return (
     <div className="home-container">
       <div className="content">
-        <h1 className="title">fixNgo</h1>
-        <p className="description">Your Car, Our Care</p>
+        <h1 className="title">VHub</h1>
+        <p className="description">Drive In, Drive Out: Quality Repairs, Every Time</p>
         
       </div>
     </div>

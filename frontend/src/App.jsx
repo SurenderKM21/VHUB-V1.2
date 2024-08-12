@@ -111,6 +111,7 @@ import Services from './components/Services';
 import Book from './components/Book';
 import Profile from './components/Profile';
 import Feedback from './components/Feedback';
+import TechDashboard from './components/TechDashboard';
 
 function App() {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
@@ -141,10 +142,14 @@ function App() {
             path="/profile"
             element={isAuthenticated ? <Profile /> : <Navigate to="/login" />}
           />
+          <Route path="/technician" element={<TechDashboard/>}></Route>
           <Route path="/book" element={isAuthenticated ? <Book /> : <Navigate to="/login" />} />
         <Route path="/feedback" element={<Feedback/>} />
+        
+        
         </Routes>
-        <Footer />
+        
+  {!isAdmin && <Footer />}
       </BrowserRouter>
     </div>
   );
