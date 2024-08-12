@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-DemoApplication<securitytemplatev3>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.example.demo.DemoApplication",
+            "projectName": "securitytemplatev3",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
