@@ -116,6 +116,10 @@ public class UserController {
     public User getProfile(@PathVariable Long userId) {
         return userService.getUserById(userId);
     }
+    @GetMapping("/{email}")
+    public User getProfile(@PathVariable String email) {
+        return userService.getUserByEmail(email);
+    }
 
     @PutMapping
     public User updateProfile(@RequestBody User user) {

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import './TechDashboard.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTachometerAlt, faUsers, faCalendarCheck, faTools, faComments } from '@fortawesome/free-solid-svg-icons';
-import Services from './Services';
 
 const TechDashboard = () => {
   const [activeSection, setActiveSection] = useState('dashboard');

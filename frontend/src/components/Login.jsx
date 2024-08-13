@@ -44,24 +44,15 @@ const Login = () => {
         const response = await axios.post("http://localhost:8080/api/auth/login", formData);
         console.log("API Response:", response.data);
   
-        const { accessToken, role, userDetails } = response.data;
-
-        // Store additional user details if provided
-        if (userDetails && typeof userDetails === 'object') {
-          localStorage.setItem("userDetails", JSON.stringify(userDetails));
-        } else {
-          console.warn("userDetails is not a valid object.");
-          localStorage.removeItem("userDetails");
-        }
+        const { accessToken, role} = response.data;
   
         localStorage.setItem("token", accessToken);
         localStorage.setItem("role", role);
         localStorage.setItem('userEmail', response.email); 
         console.log("Token:", localStorage.getItem("token"));
-        console.log("User Details:", JSON.parse(localStorage.getItem("userDetails") || '{}'));
   
         // Dispatch login action to Redux
-        dispatch(login({ email: formData.email, isAdmin: role === "Admin", token: accessToken }));
+        dispatch(login({ email: formData.email, isAdmin: role === "Admin", token: accessToken ,role:role,isTech : role==="Technician"}));
         console.log("About to toast Login Success");
         // Navigate to appropriate route based on role
         toast.success('Login successful!');
@@ -74,9 +65,11 @@ const Login = () => {
             break;
           case "Technician":
             navigate("/technician");
+            console.log("To TECH");
             break;
           default:
             navigate("/");
+            console.log("To Home");
           
         }
         // navigate(role === "Admin" ? "/admin-dashboard" : "/");

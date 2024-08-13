@@ -35,7 +35,9 @@ const initialState = {
   user: null,
   isAuthenticated: false,
   isAdmin: false,
-  token: null, // Add token to initial state
+  token: null, 
+  role:null,
+isTech:false
 };
 
 const authSlice = createSlice({
@@ -43,17 +45,20 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     login: (state, action) => {
-      const { email, isAdmin, token } = action.payload; // Destructure token from payload
+      const { email, isAdmin, token ,role,isTech} = action.payload; // Destructure token from payload
       state.user = { email };
+      state.role={role};
       state.isAuthenticated = true;
       state.isAdmin = isAdmin;
       state.token = token; // Store token in state
+      state.isTech=isTech;
     },
     logout: (state) => {
       state.user = null;
       state.isAuthenticated = false;
       state.isAdmin = false;
-      state.token = null; // Clear token on logout
+      state.token = null; 
+      state.isTech=null;// Clear token on logout
     },
   },
 });

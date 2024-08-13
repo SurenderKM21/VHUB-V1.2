@@ -112,10 +112,12 @@ import Book from './components/Book';
 import Profile from './components/Profile';
 import Feedback from './components/Feedback';
 import TechDashboard from './components/TechDashboard';
+import UserDashboard from './components/UserDashboard';
 
 function App() {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const isAdmin = useSelector((state) => state.auth.isAdmin);
+  const role = useSelector((state) => state.auth.role);
 
   return (
     <div>
@@ -142,7 +144,8 @@ function App() {
             path="/profile"
             element={isAuthenticated ? <Profile /> : <Navigate to="/login" />}
           />
-          <Route path="/technician" element={<TechDashboard/>}></Route>
+          <Route path="/technician" element={isAuthenticated ? <TechDashboard />:<Navigate to="/login" />} />
+          <Route path="/userdashboard" element={<UserDashboard/>}/>
           <Route path="/book" element={isAuthenticated ? <Book /> : <Navigate to="/login" />} />
         <Route path="/feedback" element={<Feedback/>} />
         

@@ -72,7 +72,7 @@ const Book = () => {
         alert('Booking confirmed!');
         navigate('/');
       } catch (error) {
-        console.error('Error creating booking:', error.response ? error.response.data : error.message);
+        console.error('Error creating booking:', error);
         alert('Failed to create booking');
       }
     } else {
