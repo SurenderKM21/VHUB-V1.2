@@ -34,7 +34,7 @@
   
   .about-card-icon {
     margin: 1rem auto;
-    color: #007bff;
+    color: #505e6d;
   }
   
   .about-card h3 {
@@ -49,7 +49,7 @@
   }
   .a-body{
     background-repeat: no-repeat;
-    background-image: url('/images/bg2.jpg');
+    background-image: url('https://st5.depositphotos.com/34989354/64855/v/450/depositphotos_648558252-stock-illustration-grey-background-display-shadow-leaves.jpg');
     background-size: cover;
     height: 100vh;
   }

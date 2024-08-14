@@ -52,11 +52,11 @@ const Login = () => {
         console.log("Token:", localStorage.getItem("token"));
   
         // Dispatch login action to Redux
+        // console.log("Done toast");
+        // toast.success('Login successful!');
         dispatch(login({ email: formData.email, isAdmin: role === "Admin", token: accessToken ,role:role,isTech : role==="Technician"}));
-        console.log("About to toast Login Success");
+        // console.log("About to toast Login Success");
         // Navigate to appropriate route based on role
-        toast.success('Login successful!');
-        console.log("Done toast");
         console.log(role);
         switch(role)
         {
@@ -75,7 +75,8 @@ const Login = () => {
         // navigate(role === "Admin" ? "/admin-dashboard" : "/");
       } catch (error) {
         console.error('Error logging in:', error.response ? error.response.data : error.message);
-        alert("Invalid Credentials.");
+        // alert("Invalid Credentials.");
+        toast.error("Invalid credentials");
       }
     }
   };

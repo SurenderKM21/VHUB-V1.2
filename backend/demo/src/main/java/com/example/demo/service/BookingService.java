@@ -24,6 +24,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.dto.BookingDTO;
 import com.example.demo.model.Booking;
 import com.example.demo.model.User;
 import com.example.demo.repo.BookingRepository;
@@ -43,7 +44,7 @@ public class BookingService {
     public Booking createBooking(Booking booking) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName(); // Assuming email is used for authentication
-
+        
         User user = userRepository.findByEmail(email)
             .orElseThrow(() -> new RuntimeException("User not found"));
 

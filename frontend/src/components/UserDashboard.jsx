@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTachometerAlt, faUsers, faCalendarCheck, faTools, faComments } from '@fortawesome/free-solid-svg-icons';
 import Services from './Services';
 import { useSelector } from 'react-redux';
+import UserProfile from './UserProfile';
 
 const UserDashboard = () => {
   const [activeSection, setActiveSection] = useState('dashboard');
@@ -18,7 +19,7 @@ const UserDashboard = () => {
       case 'bookings':
         return <BookingManagement />;
       case 'profile':
-        return <UserManagement />;
+        return <UserProfile />;
       
       default:
         return <DashboardOverview />;
@@ -58,6 +59,7 @@ const DashboardOverview = () => (
   </div>
 );
 const UserManagement = () => {
+  
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -129,11 +131,84 @@ const UserManagement = () => {
     );
   };
 
+  // const BookingManagement = () => {
+  //   const [bookings, setBookings] = useState([]);
+  //   const [loading, setLoading] = useState(true);
+  //   const [error, setError] = useState(null);
+  //   const email = useSelector((state) => state.auth.user);
+  
+  //   useEffect(() => {
+  //     const fetchBookings = async () => {
+  //       try {
+  //         const response = await fetch('http://localhost:8080/api/bookings', {
+  //           headers: {
+  //             'Authorization': `Bearer ${localStorage.getItem('token')}`,
+  //           },
+  //         });
+  
+  //         if (!response.ok) throw new Error('Failed to fetch bookings');
+  
+  //         const bookingsData = await response.json();
+  //         setBookings(bookingsData);
+  //         setLoading(false);
+  //       } catch (error) {
+  //         console.error('Error fetching bookings:', error);
+  //         setError('Failed to load bookings');
+  //         setLoading(false);
+  //       }
+  //     };
+  
+  //     fetchBookings();
+  //   }, []);
+  
+  //   if (loading) return <p>Loading bookings...</p>;
+  //   if (error) return <p>{error}</p>;
+  
+  //   // Filter bookings by matching email
+  //   const filteredBookings = bookings.filter((booking) => booking.email === email);
+  
+  //   return (
+  //     <div>
+  //       <h3>Booking Management</h3>
+  //       {filteredBookings.length === 0 ? (
+  //         <p>No bookings found for this email.</p>
+  //       ) : (
+  //         <table className="booking-table">
+  //           <thead>
+  //             <tr>
+  //               <th>ID</th>
+  //               <th>Name</th>
+  //               <th>Phone</th>
+  //               <th>Vehicle Number</th>
+  //               <th>Service</th>
+  //               <th>Problem Description</th>
+  //               <th>Date</th>
+  //               <th>Time</th>
+  //             </tr>
+  //           </thead>
+  //           <tbody>
+  //             {filteredBookings.map((booking) => (
+  //               <tr key={booking.id}>
+  //                 <td>{booking.id}</td>
+  //                 <td>{booking.name}</td>
+  //                 <td>{booking.phone}</td>
+  //                 <td>{booking.vehicleNumber}</td>
+  //                 <td>{booking.service}</td>
+  //                 <td>{booking.problemDescription}</td>
+  //                 <td>{booking.date}</td>
+  //                 <td>{booking.time}</td>
+  //               </tr>
+  //             ))}
+  //           </tbody>
+  //         </table>
+  //       )}
+  //     </div>
+  //   );
+  // };
   const BookingManagement = () => {
     const [bookings, setBookings] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const email = useSelector((state) => state.auth.user);
   
     useEffect(() => {
       const fetchBookings = async () => {
@@ -147,7 +222,8 @@ const UserManagement = () => {
           if (!response.ok) throw new Error('Failed to fetch bookings');
   
           const bookingsData = await response.json();
-          setBookings(bookingsData);
+          console.log('Bookings Data:', bookingsData); // Log the data
+          setBookings(bookingsData); // Ensure this is the correct data structure
           setLoading(false);
         } catch (error) {
           console.error('Error fetching bookings:', error);
@@ -162,14 +238,11 @@ const UserManagement = () => {
     if (loading) return <p>Loading bookings...</p>;
     if (error) return <p>{error}</p>;
   
-    // Filter bookings by matching email
-    const filteredBookings = bookings.filter((booking) => booking.email === email);
-  
     return (
       <div>
         <h3>Booking Management</h3>
-        {filteredBookings.length === 0 ? (
-          <p>No bookings found for this email.</p>
+        {bookings.length === 0 ? (
+          <p>No bookings available.</p>
         ) : (
           <table className="booking-table">
             <thead>
@@ -185,7 +258,7 @@ const UserManagement = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredBookings.map((booking) => (
+              {bookings.map((booking) =>  booking.name === "Tarun" &&(
                 <tr key={booking.id}>
                   <td>{booking.id}</td>
                   <td>{booking.name}</td>
@@ -203,7 +276,6 @@ const UserManagement = () => {
       </div>
     );
   };
-  
   
 // Component for User Management
 // const UserManagement = () => {

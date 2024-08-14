@@ -6,11 +6,25 @@
   height: 100vh; /* Full height of the viewport */
   font-family: 'Raleway', sans-serif; /* Apply Raleway font */
 }
+.dashboard-overview .progress-container {
+  display: flex;
+  justify-content: space-between; /* Creates space between items */
+  gap: 20px; /* Controls the space between the cards */
+}
+
+.progress-item {
+  flex: 1; /* Ensures all items take up equal width */
+  max-width: 500px; /* Ensures cards don't exceed a certain width */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 
 /* Side panel styling */
 .admin-side-panel {
   width: 250px;
-  background-color: #3698e3; /* Updated background color */
+  background-color: #2d3941; /* Updated background color */
   color: white; /* Ensure text is visible on dark background */
   padding: 15px;
   height: 100%; /* Full height of the container */

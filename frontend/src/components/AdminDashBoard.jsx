@@ -540,6 +540,9 @@ import './AdminDashboard.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTachometerAlt, faUsers, faCalendarCheck, faTools, faComments } from '@fortawesome/free-solid-svg-icons';
 import Services from './Services';
+import MediaCard from './Card';
+import MediaCard3 from './MediaCard3';
+import MediaCard2 from './MediaCard2';
 
 const AdminDashboard = () => {
   const [activeSection, setActiveSection] = useState('dashboard');
@@ -555,8 +558,8 @@ const AdminDashboard = () => {
         return <BookingManagement />;
       case 'technicians':
         return <TechManagement />;
-      case 'feedback':
-        return <FeedbackSection />;
+      // case 'feedback':
+      //   return <FeedbackSection />;
       case 'services':
         return <Services></Services>;
       default:
@@ -581,9 +584,9 @@ const AdminDashboard = () => {
           <li onClick={() => setActiveSection('technicians')} className={activeSection === 'technicians' ? 'active' : ''}>
             <FontAwesomeIcon icon={faTools} className="icon" /> Technician Management
           </li>
-          <li onClick={() => setActiveSection('feedback')} className={activeSection === 'feedback' ? 'active' : ''}>
+          {/* <li onClick={() => setActiveSection('feedback')} className={activeSection === 'feedback' ? 'active' : ''}>
             <FontAwesomeIcon icon={faComments} className="icon" /> Feedback
-          </li>
+          </li> */}
           <li onClick={() => setActiveSection('services')} className={activeSection === 'feedback' ? 'active' : ''}>
             <FontAwesomeIcon icon={faComments} className="icon" /> Services
           </li>
@@ -597,13 +600,117 @@ const AdminDashboard = () => {
 };
 
 // Component for Dashboard Overview
-const DashboardOverview = () => (
-  <div>
-    <h3>Dashboard Overview</h3>
-    <p>Welcome to the admin dashboard. Here you can manage your application.</p>
-  </div>
-);
+// const DashboardOverview = () => (
+//   <div>
+//     <h3>Dashboard Overview</h3>
+//     <p>Welcome to the admin dashboard. Here you can manage your application.</p>
+//   </div>
+// );
+const DashboardOverview = () => {
+  const [dataCounts, setDataCounts] = useState({
+    users: 0,
+    bookings: 0,
+    technicians: 0,
+  });
+  // const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
+  // useEffect(() => {
+  //   const fetchCounts = async () => {
+  //     try {
+  //       const token = localStorage.getItem('token');
+
+  //       // Fetch user count
+  //       const usersResponse = await fetch('http://localhost:8080/api/users/count', {
+  //         headers: {
+  //           'Authorization': `Bearer ${token}`,
+  //         },
+  //       });
+  //       const usersCount = await usersResponse.json();
+
+  //       // Fetch booking count
+  //       const bookingsResponse = await fetch('http://localhost:8080/api/bookings/count', {
+  //         headers: {
+  //           'Authorization': `Bearer ${token}`,
+  //         },
+  //       });
+  //       const bookingsCount = await bookingsResponse.json();
+
+  //       // Fetch technician count
+  //       const techniciansResponse = await fetch('http://localhost:8080/api/technicians/count', {
+  //         headers: {
+  //           'Authorization': `Bearer ${token}`,
+  //         },
+  //       });
+  //       const techniciansCount = await techniciansResponse.json();
+
+  //       setDataCounts({
+  //         users: usersCount,
+  //         bookings: bookingsCount,
+  //         technicians: techniciansCount,
+  //       });
+  //       setLoading(false);
+  //     } catch (error) {
+  //       console.error('Error fetching counts:', error);
+  //       setError('Failed to load dashboard data');
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchCounts();
+  // }, []);
+
+  // if (loading) return <p>Loading dashboard data...</p>;
+  if (error) return <p>{error}</p>;
+
+  // return (
+  //   <div className="dashboard-overview">
+  //     <h3>Dashboard Overview</h3>
+  //     <div className="progress-container">
+  //       <div className="progress-item">
+          
+  //         <div className="progress-bar">
+  //           <div className="progress" style={{ width: `${dataCounts.users}%` }}></div>
+  //         </div>
+  //         <MediaCard/>
+  //       </div>
+  //       <div className="progress-item">
+          
+  //         <div className="progress-bar">
+  //           <div className="progress" style={{ width: `${dataCounts.bookings}%` }}></div>
+  //         </div>
+  //         <MediaCard2/>
+  //         {/* <p>3 Bookings</p> */}
+  //       </div>
+  //       <div className="progress-item">
+  //         {/* <h4>Technicians</h4> */}
+  //         <div className="progress-bar">
+  //           <div className="progress" style={{ width: `${dataCounts.technicians}%` }}></div>
+  //         </div>
+  //         {/* <p>2 Technicians</p> */}
+  //         <MediaCard3/>
+  //       </div>
+  //     </div>
+  //   </div>
+  // );
+
+return (
+  <div className="dashboard-overview">
+  <h3>Dashboard Overview</h3>
+  <div className="progress-container">
+    <div className="progress-item">
+      <MediaCard />
+    </div>
+    <div className="progress-item">
+      <MediaCard2 />
+    </div>
+    <div className="progress-item">
+      <MediaCard3 />
+    </div>
+  </div>
+</div>
+);
+};
 // Component for User Management
 const UserManagement = () => {
   // <div>

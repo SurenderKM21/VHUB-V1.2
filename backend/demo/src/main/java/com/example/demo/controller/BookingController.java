@@ -1,7 +1,9 @@
  package com.example.demo.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 // import com.example.demo.model.Booking;
 // import com.example.demo.service.BookingService;
@@ -31,6 +33,7 @@ import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.*;
 
+import com.example.demo.dto.BookingDTO;
 import com.example.demo.model.Booking;
 import com.example.demo.service.BookingService;
 
@@ -43,7 +46,7 @@ public class BookingController {
     public BookingController(BookingService bookingService) {
         this.bookingService = bookingService;
     }
-
+    
     @GetMapping
     public ResponseEntity<?> getAllBookings()
     {

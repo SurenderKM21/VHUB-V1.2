@@ -13,6 +13,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import { useNavigate } from 'react-router-dom';
 import './Register.css';
 import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -93,7 +94,7 @@ const handleSignup = async (e) => {
 existingUsers.push(response.data); // Use response.data if it contains the new user info
 localStorage.setItem('user', JSON.stringify(existingUsers));
 
-
+      toast.success("Registered successfully");
       // Redirect to login page
       navigate('/login');
     } catch (error) {
@@ -212,6 +213,7 @@ localStorage.setItem('user', JSON.stringify(existingUsers));
         </Typography>
       </Box>
     </Box>
+    <ToastContainer></ToastContainer>
     </div>
   );
 }

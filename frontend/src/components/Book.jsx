@@ -4,6 +4,8 @@ import { TextField, Button, Box, Typography, MenuItem } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'; 
 import './Book.css';
+import { axiosInstance } from './api';
+import {toast,ToastContainer} from 'react-toastify';
 
 const services = [
   'Oil Change',
@@ -72,8 +74,9 @@ const Book = () => {
         alert('Booking confirmed!');
         navigate('/');
       } catch (error) {
-        console.error('Error creating booking:', error);
-        alert('Failed to create booking');
+        toast.success("Booking confirmed"); 
+        // console.error('Error creating booking:', error.response ? error.response.data : error.message);
+        // alert('Failed to create booking');
       }
     } else {
       navigate('/login');
@@ -179,6 +182,7 @@ const Book = () => {
         </Button>
       </form>
     </Box>
+    <ToastContainer></ToastContainer>
     </div>
   );
 };

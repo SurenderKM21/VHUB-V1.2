@@ -55,23 +55,25 @@
   .service-icon {
     font-size: 50px;
     margin-bottom: 10px;
-    color: #007bff;
+    color: #53616f;
   }
   
   .book-now-button {
     margin-top: 10px;
-    background-color: #007bff;
+    background-color: #6f8398;
   }
   
   .s-body {
     background-repeat: no-repeat;
-    background-image: url('/images/bg1.jpg');
+    background-image: url('https://st5.depositphotos.com/34989354/64855/v/450/depositphotos_648558252-stock-illustration-grey-background-display-shadow-leaves.jpg');
     background-size: cover;
   }
   
   .add-service-button {
     margin-bottom: 20px;
     display: block;
+    
+    background-color: #6f8398;
     margin-left: auto;
     margin-right: auto;
  

@@ -21,7 +21,7 @@
   }
   .b-body{
     background-repeat: no-repeat;
-    background-image: url('/images/bg7.jpg');
+    /* background-image: url('https://img.freepik.com/free-photo/gray-grunge-surface-wall-texture-background_1017-18216.jpg'); */
     background-size: cover;
     height: 100vh;
   }
