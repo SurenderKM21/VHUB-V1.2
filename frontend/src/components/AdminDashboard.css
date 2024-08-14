@@ -11,6 +11,24 @@
   justify-content: space-between; /* Creates space between items */
   gap: 20px; /* Controls the space between the cards */
 }
+.tech-form {
+  margin-bottom: 20px;
+}
+
+.service-table th,
+.service-table td {
+  padding: 8px;
+  text-align: left;
+}
+
+.service-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.service-table th {
+  background-color: #f4f4f4;
+}
 
 .progress-item {
   flex: 1; /* Ensures all items take up equal width */

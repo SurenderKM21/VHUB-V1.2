@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState ,useEffect} from 'react';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -7,6 +7,35 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
 const MediaCard2 = () => {
+  const [bookings, setBookings] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchBookings = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/api/bookings', {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
+
+        if (!response.ok) throw new Error('Failed to fetch bookings');
+
+        const bookingsData = await response.json();
+        console.log('Bookings Data:', bookingsData); // Log the data
+        setBookings(bookingsData); // Ensure this is the correct data structure
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching bookings:', error);
+        setError('Failed to load bookings');
+        setLoading(false);
+      }
+    };
+
+    fetchBookings();
+  }, []);
+
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia
@@ -19,7 +48,7 @@ const MediaCard2 = () => {
           Bookings
         </Typography>
         <Typography variant="body2" color="text.secondary">
-        3 Bookings
+        {bookings.length} Bookings
         </Typography>
       </CardContent>
     </Card>

@@ -1,93 +1,69 @@
-/* .service-container {
-    padding: 20px;
-  }
-  
-  .service-title {
-    text-align: center;
-    margin-bottom: 20px;
-    color: white;
-  }
-  
-  .service-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding: 10px;
-  }
-  
-  .service-icon {
-    font-size: 50px;
-    margin-bottom: 10px;
-    color: #007bff; 
-  }
-  
-  .book-now-button {
-    margin-top: 10px;
-    background-color:#007bff; 
-  }
-  .s-body{
-      background-repeat: no-repeat;
-      background-image: url('/images/bg1.jpg');
-      background-size: cover;
-    
-  }
-   */
+html, body {
+  margin: 0;
+  height: 100%;
+}
+.service-container {
+  margin-top: 50px;
+  padding: 20px;
+}
 
-   .service-container {
-    padding: 20px;
-  }
-  
-  .service-title {
-    text-align: center;
-    margin-bottom: 20px;
-    color: white;
-  }
-  
-  .service-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding: 10px;
-  }
-  
-  .service-icon {
-    font-size: 50px;
-    margin-bottom: 10px;
-    color: #53616f;
-  }
-  
-  .book-now-button {
-    margin-top: 10px;
-    background-color: #6f8398;
-  }
-  
-  .s-body {
-    background-repeat: no-repeat;
-    background-image: url('https://st5.depositphotos.com/34989354/64855/v/450/depositphotos_648558252-stock-illustration-grey-background-display-shadow-leaves.jpg');
-    background-size: cover;
-  }
-  
-  .add-service-button {
-    margin-bottom: 20px;
-    display: block;
-    
-    background-color: #6f8398;
-    margin-left: auto;
-    margin-right: auto;
- 
-  }
-  
-  .edit-button, .delete-button {
-    margin-top: 10px;
-  }
-  
-  .edit-button {
-    color: #ff9800;
-  }
-  
-  .delete-button {
-    color: #f44336;
-  }
-  
+.service-title {
+  text-align: center;
+  margin-bottom: 20px;
+  color: white;
+}
+
+.service-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 10px;
+}
+
+.service-icon {
+  font-size: 50px;
+  margin-bottom: 10px;
+  color: #c72813;
+}
+
+.book-now-button {
+  margin-top: 10px;
+  color: #e81e1b;
+}
+
+
+.s-body {
+  min-height: 100vh; /* Ensures that the section covers at least the full viewport height */
+  background-image: url('https://i.pinimg.com/originals/77/9a/a1/779aa1794e58f78587fb2d0a5c001.jpg');
+  background-size: cover; /* Ensure the image covers the entire container */
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Prevent the image from repeating */
+  /* Apply a semi-transparent gradient */
+  background: linear-gradient(
+    rgb(210, 129, 129), /* Start color with opacity */
+    rgba(237, 237, 237, 0.589) /* End color with opacity */
+  ), url('https://www.pixel4k.com/wp-content/uploads/2020/08/novitec-mclaren-720s-front_1596908085.jpg.webp'); /* Background image */
+  background-size: cover; /* Ensure the image covers the entire container */
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Prevent the image from repeating */
+}
+.add-service-button {
+  margin-bottom: 20px;
+  display: block;
+  background-color: #db2b2b;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.edit-button, .delete-button {
+  margin-top: 10px;
+}
+
+.edit-button {
+  color: #ff9800;
+}
+
+.delete-button {
+  color: #f44336;
+}

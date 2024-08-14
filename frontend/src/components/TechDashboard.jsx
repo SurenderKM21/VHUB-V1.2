@@ -1,44 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import './TechDashboard.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTachometerAlt, faUsers, faCalendarCheck, faTools, faComments } from '@fortawesome/free-solid-svg-icons';
+import { faTachometerAlt, faComments } from '@fortawesome/free-solid-svg-icons';
 
-const TechDashboard = () => {
-  const [activeSection, setActiveSection] = useState('dashboard');
-
-  // Function to render content based on active section
-  const renderContent = () => {
-    switch (activeSection) {
-      case 'dashboard':
-        return <DashboardOverview />;
-      case 'bookings':
-        return <BookingManagement />;
-      
-      default:
-        return <DashboardOverview />;
-    }
-  };
-
-  return (
-    <div className="admin-dashboard">
-      <div className="admin-side-panel">
-        <h2>Technician Panel</h2>
-        <ul>
-          <li onClick={() => setActiveSection('dashboard')} className={activeSection === 'dashboard' ? 'active' : ''}>
-            <FontAwesomeIcon icon={faTachometerAlt} className="icon" /> Dashboard Overview
-          </li>
-         
-          <li onClick={() => setActiveSection('bookings')} className={activeSection === 'bookings' ? 'active' : ''}>
-            <FontAwesomeIcon icon={faComments} className="icon" /> Bookings
-          </li>
-        </ul>
-      </div>
-      <div className="admin-content">
-        {renderContent()}
-      </div>
-    </div>
-  );
-};
+// Additional Components or Code Space
+// You can add more components or imports above this comment
 
 // Component for Dashboard Overview
 const DashboardOverview = () => (
@@ -121,5 +87,41 @@ const BookingManagement = () => {
   );
 };
 
+// Main TechDashboard Component
+const TechDashboard = () => {
+  const [activeSection, setActiveSection] = useState('dashboard');
+
+  // Function to render content based on active section
+  const renderContent = () => {
+    switch (activeSection) {
+      case 'dashboard':
+        return <DashboardOverview />;
+      case 'bookings':
+        return <BookingManagement />;
+      
+      default:
+        return <DashboardOverview />;
+    }
+  };
+
+  return (
+    <div className="admin-dashboard">
+      <div className="admin-side-panel">
+        <h2>Technician Panel</h2>
+        <ul>
+          <li onClick={() => setActiveSection('dashboard')} className={activeSection === 'dashboard' ? 'active' : ''}>
+            <FontAwesomeIcon icon={faTachometerAlt} className="icon" /> Dashboard Overview
+          </li>
+          <li onClick={() => setActiveSection('bookings')} className={activeSection === 'bookings' ? 'active' : ''}>
+            <FontAwesomeIcon icon={faComments} className="icon" /> Bookings
+          </li>
+        </ul>
+      </div>
+      <div className="admin-content">
+        {renderContent()}
+      </div>
+    </div>
+  );
+};
 
 export default TechDashboard;

@@ -1,12 +1,44 @@
-import * as React from 'react';
+// import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const MediaCard = () => {
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/api/users', {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
+
+        if (!response.ok) throw new Error('Failed to fetch bookings');
+
+        const userData = await response.json();
+        // console.log(' Data:', bookingsData); // Log the data
+        setUsers(userData); // Ensure this is the correct data structure
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching users:', error);
+        setError('Failed to load users');
+        setLoading(false);
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia
@@ -19,7 +51,7 @@ const MediaCard = () => {
           User     
         </Typography>
         <Typography variant="body2" color="text.secondary">
-        6 Users
+        {users.length} USERS
         </Typography>
       </CardContent>
     </Card>

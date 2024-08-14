@@ -1,0 +1,19 @@
+.tech-form {
+    margin-bottom: 20px;
+  }
+  
+  .service-table th,
+  .service-table td {
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .service-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .service-table th {
+    background-color: #f4f4f4;
+  }
+  

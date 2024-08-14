@@ -13,6 +13,16 @@ public class Booking {
     private String name;
 
     @Column(nullable = false)
+    private String email;
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Column(nullable = false)
     private String phone;
 
     @Column(nullable = false)

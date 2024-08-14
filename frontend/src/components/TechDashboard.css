@@ -1,5 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;600&display=swap');
 
+.header {
+    position: fixed; /* Or sticky, depending on your layout */
+    top: 0;
+    width: 97%;
+    z-index: 100; /* Ensure header is above the sidebar */
+}
+
+.sidebar {
+    position: fixed; /* Or absolute, depending on your layout */
+    left: 0;
+    top: 60px; /* Adjust if header height changes */
+    height: 100%;
+    z-index: 900; /* Below the header */
+}
+
 /* Overall dashboard styling */
 .admin-dashboard {
   display: flex;
@@ -10,7 +25,7 @@
 /* Side panel styling */
 .admin-side-panel {
   width: 250px;
-  background-color: #456a87; /* Updated background color */
+  background-color: #f66363; /* Updated background color */
   color: white; /* Ensure text is visible on dark background */
   padding: 15px;
   height: 100%; /* Full height of the container */
@@ -19,17 +34,21 @@
   left: 0;
   display: flex;
   flex-direction: column; /* Arrange items in a column */
+  box-sizing: border-box; /* Include padding in width/height calculations */
+  margin-top: 10px; /* Move panel 10px down */
 }
 
+/* Align the panel title and list items correctly */
 .admin-side-panel h2 {
   font-size: 1.5em;
-  margin-bottom: 15px;
+  margin: 70px 0; /* Align with the content below */
 }
 
+/* Align list items with the panel title */
 .admin-side-panel ul {
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin: 0; /* Remove any default margin */
   flex-grow: 1; /* Allow the list to grow and take available space */
 }
 
@@ -44,7 +63,7 @@
 }
 
 .admin-side-panel ul li:hover {
-  background-color: #0056b3; /* Darker blue on hover */
+  background-color: #f19b9b; /* Darker blue on hover */
 }
 
 .admin-side-panel ul li .icon {
@@ -57,9 +76,12 @@
   flex-grow: 1;
   margin-left: 270px; /* Offset by the width of the side panel and some extra space */
   padding: 20px;
-  overflow-x: auto; /* Allow horizontal scrolling if needed */
+  box-sizing: border-box; /* Include padding in width/height calculations */
+  position: relative;
+  top: 60px; /* Align with the top of the side panel */
 }
 
+/* Align content with the side panel */
 .admin-content h3 {
   border-bottom: 2px solid #ddd;
   padding-bottom: 10px;
@@ -128,12 +150,14 @@
   width: 50px; /* Adjust to fit within table cell */
   height: auto; /* Maintain aspect ratio */
 }
+
 .feedback-table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.feedback-table th, .feedback-table td {
+.feedback-table th,
+.feedback-table td {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: left;
@@ -146,4 +170,3 @@
 .feedback-table tr:nth-child(even) {
   background-color: #f9f9f9;
 }
-

@@ -1,4 +1,5 @@
 .about-container {
+  margin-top: 100px;
     max-width: 1200px;
     margin: 0 auto;
     padding: 2rem;
@@ -49,8 +50,12 @@
   }
   .a-body{
     background-repeat: no-repeat;
-    background-image: url('https://st5.depositphotos.com/34989354/64855/v/450/depositphotos_648558252-stock-illustration-grey-background-display-shadow-leaves.jpg');
+    background-image: linear-gradient(
+      rgb(210, 129, 129), /* Start color with opacity */
+      rgba(237, 237, 237, 0.589) /* End color with opacity */
+    ), url('https://wallpaperaccess.com/full/13642.jpg');
     background-size: cover;
     height: 100vh;
+    margin-top: 30px;
   }
   

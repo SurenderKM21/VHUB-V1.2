@@ -5,11 +5,11 @@ import lombok.Data;
 @Data
 public class BookingDTO {
     private String name;
-    private String phonenumber;
-    private String vehicleNo;
+    private String phone;
+    private String vehicleNumber;
     private String service;
     private String date;
     private String time;
-    private String problemDesc;
+    private String problemDescription,email;
     private long customerId;
 }

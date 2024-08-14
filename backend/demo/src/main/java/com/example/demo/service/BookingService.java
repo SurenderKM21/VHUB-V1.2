@@ -57,4 +57,21 @@ public class BookingService {
     {
        return bookingRepository.findAll();
     }
+
+    public void createBookings(BookingDTO bookingDTO) {
+        Booking booking = new Booking();
+        booking.setName(bookingDTO.getName());
+        booking.setPhone(bookingDTO.getPhone());
+        booking.setVehicleNumber(bookingDTO.getVehicleNumber());
+        booking.setService(bookingDTO.getService());
+        booking.setDate(bookingDTO.getDate());
+        booking.setTime(bookingDTO.getTime());
+        booking.setProblemDescription(bookingDTO.getProblemDescription());
+        booking.setEmail(bookingDTO.getEmail());
+        User user = userRepository.findByEmail(bookingDTO.getEmail()).orElseThrow(() -> new RuntimeException("User not found"));
+
+        booking.setUser(user);
+
+        bookingRepository.save(booking);
+    }
 }

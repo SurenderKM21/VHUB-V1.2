@@ -17,7 +17,7 @@ const Footer = () => {
             <Phone className="footer-icon" /> 9790333705
           </Typography>
           <Typography variant="body1" className="footer-text">
-            <Email className="footer-icon" /> support@fixngo.com
+            <Email className="footer-icon" /> support@vhub.com
           </Typography>
         </Grid>
         <Grid item xs={12} sm={3} className="footer-column">
@@ -56,7 +56,7 @@ const Footer = () => {
         </Grid>
       </Grid>
       <Box className="footer-bottom">
-        <Typography variant="body2">© 2024 Car Repair Hub. All rights reserved.</Typography>
+        <Typography variant="body2">© 2024 VHub. All rights reserved.</Typography>
       </Box>
     </Box>
   );

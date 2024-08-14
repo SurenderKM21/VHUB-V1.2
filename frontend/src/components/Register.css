@@ -44,9 +44,19 @@
   .h {
     font-family: "Raleway", sans-serif;
   }
+  .login-text
+  {
+    font-weight: bolder;
+    font-size: 2px;
+  }
   .r-body{
     background-repeat: no-repeat;
-    background-image: url('https://img.freepik.com/free-photo/painted-grey-background-with-metal-texture_125540-779.jpg');
+    background: linear-gradient(
+        rgb(210, 129, 129), /* Start color with opacity */
+        rgba(237, 237, 237, 0.589) /* End color with opacity */
+      ), url('https://i.pinimg.com/originals/16/0f/a5/160fa5a493f2f9826b3b974601c018f8.jpg'); /* Background image */
+      
+    /* background-image: url('https://img.freepik.com/free-photo/painted-grey-background-with-metal-texture_125540-779.jpg'); */
     background-size: cover;
     height: 100vh;
   }

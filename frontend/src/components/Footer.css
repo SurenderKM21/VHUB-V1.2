@@ -2,8 +2,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Bosch+Sans:wght@400;700&display=swap');
 
 .footer {
-  background-color: #333;
-  color: #fff;
+  background-color: #ffffff;
+  color: #eb0e0e;
   padding: 40px 0;
   font-family: "Bosch Sans", sans-serif;
 }
@@ -25,7 +25,7 @@
   font-weight: bold;
   font-size: 1.5em;
   margin-bottom: 20px;
-  color: #fff;
+  color: #d70d0d;
 }
 
 .footer-text {
@@ -38,11 +38,11 @@
 
 .footer-icon {
   margin-right: 10px;
-  color: #fff; 
+  color: #dc1414; 
 }
 
 .footer-link {
-  color: #fff;
+  color: #d31111;
   display: block;
   margin-bottom: 15px;
   font-size: 1.1em;
@@ -72,12 +72,12 @@
 }
 
 .social-icon {
-  color: #fff; 
+  color: #e41414; 
   margin: 0 10px;
   font-size: 30px;
   transition: color 0.3s;
 }
 
 .social-icon:hover {
-  color: #007bff;
+  color: #d50a0a;
 }

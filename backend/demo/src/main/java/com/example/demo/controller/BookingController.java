@@ -56,4 +56,15 @@ public class BookingController {
     public Booking createBooking(@RequestBody Booking booking) {
         return bookingService.createBooking(booking);
     }
+
+
+    @PostMapping("/new")
+    public ResponseEntity<String> createBookings(@RequestBody BookingDTO bookingDTO) {
+        try {
+            bookingService.createBookings(bookingDTO);
+            return ResponseEntity.ok("Booking created successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Failed to create booking: " + e.getMessage());
+        }
+    }
 }

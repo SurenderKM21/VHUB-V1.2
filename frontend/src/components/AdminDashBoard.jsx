@@ -1,548 +1,13 @@
-
-
-// import React from 'react';
-// import './AdminDashboard.css';
-
-// const AdminDashboard = () => {
-//   const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
-//   const storedBookings = JSON.parse(localStorage.getItem('bookings')) || [];
-
-//   return (
-//     <div className="admin-dashboard">
-//       <h1>Admin Dashboard</h1>
-      
-//       <h2>Registered Users</h2>
-//       <table>
-//         <thead>
-//           <tr>
-//             <th>Name</th>
-//             <th>Email</th>
-//             <th>Phone</th>
-//             <th>Address</th>
-//             <th>Password</th>
-//           </tr>
-//         </thead>
-//         <tbody>
-//           {storedUsers.map((user, index) => (
-//             <tr key={index}>
-//               <td>{user.name}</td>
-//               <td>{user.email}</td>
-//               <td>{user.phone}</td>
-//               <td>{user.address}</td>
-//               <td>{user.password}</td>
-//             </tr>
-//           ))}
-//         </tbody>
-//       </table>
-
-//       <h2>Booking Information</h2>
-//       <table>
-//         <thead>
-//           <tr>
-//             <th>Name</th>
-//             <th>Phone</th>
-//             <th>Vehicle Number</th>
-//             <th>Service</th>
-//             <th>Date</th>
-//             <th>Time</th>
-//             <th>Problem Description</th>
-//           </tr>
-//         </thead>
-//         <tbody>
-//           {storedBookings.map((booking, index) => (
-//             <tr key={index}>
-//               <td>{booking.name}</td>
-//               <td>{booking.phone}</td>
-//               <td>{booking.vehicleNumber}</td>
-//               <td>{booking.service}</td>
-//               <td>{booking.date}</td>
-//               <td>{booking.time}</td>
-//               <td>{booking.problemDescription}</td>
-//             </tr>
-//           ))}
-//         </tbody>
-//       </table>
-//     </div>
-//   );
-// };
-
-// export default AdminDashboard;
-// // import React from 'react';
-// // import './AdminDashboard.css';
-
-// // const AdminDashboard = () => {
-// //   const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
-// //   const storedBookings = JSON.parse(localStorage.getItem('bookings')) || [];
-
-// //   const clearUsers = () => {
-// //     localStorage.removeItem('users');
-// //     window.location.reload();
-// //   };
-
-// //   const clearBookings = () => {
-// //     localStorage.removeItem('bookings');
-// //     window.location.reload();
-// //   };
-
-// //   return (
-// //     <div className="admin-dashboard">
-// //       <h1>Admin Dashboard</h1>
-
-// //       <h2>Registered Users</h2>
-// //       <button onClick={clearUsers}>Clear All Users</button>
-// //       <table>
-// //         <thead>
-// //           <tr>
-// //             <th>Name</th>
-// //             <th>Email</th>
-// //             <th>Phone</th>
-// //             <th>Address</th>
-// //             <th>Password</th>
-// //           </tr>
-// //         </thead>
-// //         <tbody>
-// //           {storedUsers.map((user, index) => (
-// //             <tr key={index}>
-// //               <td>{user.name}</td>
-// //               <td>{user.email}</td>
-// //               <td>{user.phone}</td>
-// //               <td>{user.address}</td>
-// //               <td>{user.password}</td>
-// //             </tr>
-// //           ))}
-// //         </tbody>
-// //       </table>
-
-// //       <h2>Booking Information</h2>
-// //       <button onClick={clearBookings}>Clear All Bookings</button>
-// //       <table>
-// //         <thead>
-// //           <tr>
-// //             <th>Name</th>
-// //             <th>Phone</th>
-// //             <th>Vehicle Number</th>
-// //             <th>Service</th>
-// //             <th>Date</th>
-// //             <th>Time</th>
-// //             <th>Problem Description</th>
-// //           </tr>
-// //         </thead>
-// //         <tbody>
-// //           {storedBookings.map((booking, index) => (
-// //             <tr key={index}>
-// //               <td>{booking.name}</td>
-// //               <td>{booking.phone}</td>
-// //               <td>{booking.vehicleNumber}</td>
-// //               <td>{booking.service}</td>
-// //               <td>{booking.date}</td>
-// //               <td>{booking.time}</td>
-// //               <td>{booking.problemDescription}</td>
-// //             </tr>
-// //           ))}
-// //         </tbody>
-// //       </table>
-// //     </div>
-// //   );
-// // };
-
-// // export default AdminDashboard;
-
-
-// import React, { useState } from 'react';
-// import './AdminDashboard.css';
-
-// const AdminDashboard = () => {
-//   const [activeSection, setActiveSection] = useState('dashboard');
-
-//   const renderContent = () => {
-//     switch (activeSection) {
-//       case 'dashboard':
-//         return <DashboardOverview />;
-//       case 'users':
-//         return <UserManagement />;
-//       case 'bookings':
-//         return <BookingManagement />;
-//       case 'services':
-//         return <ServiceManagement />;
-//       case 'feedback':
-//         return <FeedbackSection />;
-//       default:
-//         return <DashboardOverview />;
-//     }
-//   };
-
-//   return (
-//     <div className="admin-dashboard">
-//       <div className="side-panel">
-//         <h2>Admin Panel</h2>
-//         <ul>
-//           <li onClick={() => setActiveSection('dashboard')}>Dashboard Overview</li>
-//           <li onClick={() => setActiveSection('users')}>User Management</li>
-//           <li onClick={() => setActiveSection('bookings')}>Booking Management</li>
-//           <li onClick={() => setActiveSection('services')}>Service Management</li>
-//           <li onClick={() => setActiveSection('feedback')}>Feedback</li>
-//         </ul>
-//       </div>
-//       <div className="content">
-//         {renderContent()}
-//       </div>
-//     </div>
-//   );
-// };
-
-// const DashboardOverview = () => (
-//   <div>
-//     <h3>Dashboard Overview</h3>
-//     {/* Add statistics and quick links here */}
-//     <p>Welcome to the admin dashboard. Here you can manage your application.</p>
-//   </div>
-// );
-
-// const UserManagement = () => (
-//   <div>
-//     <h3>User Management</h3>
-//     {/* Add user management content here */}
-//     <p>Manage users and their roles here.</p>
-//   </div>
-// );
-
-// const BookingManagement = () => (
-//   <div>
-//     <h3>Booking Management</h3>
-//     {/* Add booking management content here */}
-//     <p>Manage bookings here.</p>
-//   </div>
-// );
-
-// const ServiceManagement = () => (
-//   <div>
-//     <h3>Service Management</h3>
-//     {/* Add service management content here */}
-//     <p>Manage your services here.</p>
-//   </div>
-// );
-
-// const FeedbackSection = () => (
-//   <div>
-//     <h3>Feedback</h3>
-//     {/* Add feedback management content here */}
-//     <p>View and manage user feedback here.</p>
-//   </div>
-// );
-
-// export default AdminDashboard;
-
-// import React, { useState } from 'react';
-// import './AdminDashboard.css';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faTachometerAlt, faUsers, faCalendarCheck, faTools, faComments } from '@fortawesome/free-solid-svg-icons';
-
-// const AdminDashboard = () => {
-//   const [activeSection, setActiveSection] = useState('dashboard');
-
-//   const renderContent = () => {
-//     switch (activeSection) {
-//       case 'dashboard':
-//         return <DashboardOverview />;
-//       case 'users':
-//         return <UserManagement />;
-//       case 'bookings':
-//         return <BookingManagement />;
-//       case 'services':
-//         return <ServiceManagement />;
-//       case 'feedback':
-//         return <FeedbackSection />;
-//       default:
-//         return <DashboardOverview />;
-//     }
-//   };
-
-//   return (
-//     <div className="admin-dashboard">
-//       <div className="side-panel">
-//         <h2>Admin Panel</h2>
-//         <ul>
-//           <li onClick={() => setActiveSection('dashboard')}>
-//             <FontAwesomeIcon icon={faTachometerAlt} /> Dashboard Overview
-//           </li>
-//           <li onClick={() => setActiveSection('users')}>
-//             <FontAwesomeIcon icon={faUsers} /> User Management
-//           </li>
-//           <li onClick={() => setActiveSection('bookings')}>
-//             <FontAwesomeIcon icon={faCalendarCheck} /> Booking Management
-//           </li>
-//           <li onClick={() => setActiveSection('services')}>
-//             <FontAwesomeIcon icon={faTools} /> Service Management
-//           </li>
-//           <li onClick={() => setActiveSection('feedback')}>
-//             <FontAwesomeIcon icon={faComments} /> Feedback
-//           </li>
-//         </ul>
-//       </div>
-//       <div className="content">
-//         {renderContent()}
-//       </div>
-//     </div>
-//   );
-// };
-
-// const DashboardOverview = () => (
-//   <div>
-//     <h3>Dashboard Overview</h3>
-//     <p>Welcome to the admin dashboard. Here you can manage your application.</p>
-//   </div>
-// );
-
-// const UserManagement = () => (
-//   <div>
-//     <h3>User Management</h3>
-//     <p>Manage users and their roles here.</p>
-//   </div>
-// );
-
-// const BookingManagement = () => {
-//   const [bookings, setBookings] = useState([]);
-
-//   React.useEffect(() => {
-//     const fetchBookings = async () => {
-//       try {
-//         const response = await fetch('http://localhost:8080/api/bookings', {
-//           headers: {
-//             'Authorization': `Bearer ${localStorage.getItem('token')}`,
-//           },
-//         });
-
-//         if (!response.ok) throw new Error('Failed to fetch bookings');
-
-//         const bookingsData = await response.json();
-//         setBookings(bookingsData);
-//       } catch (error) {
-//         console.error('Error fetching bookings:', error);
-//       }
-//     };
-
-//     fetchBookings();
-//   }, []);
-
-//   return (
-//     <div>
-//       <h3>Booking Management</h3>
-//       <table className="booking-table">
-//         <thead>
-//           <tr>
-//             <th>ID</th>
-//             <th>Name</th>
-//             <th>Phone</th>
-//             <th>Vehicle Number</th>
-//             <th>Service</th>
-//             <th>Problem Description</th>
-//             <th>Date</th>
-//             <th>Time</th>
-//             <th>User ID</th>
-//           </tr>
-//         </thead>
-//         <tbody>
-//           {bookings.map((booking) => (
-//             <tr key={booking.id}>
-//               <td>{booking.id}</td>
-//               <td>{booking.name}</td>
-//               <td>{booking.phone}</td>
-//               <td>{booking.vehicleNumber}</td>
-//               <td>{booking.service}</td>
-//               <td>{booking.problemDescription}</td>
-//               <td>{booking.date}</td>
-//               <td>{booking.time}</td>
-//               <td>{booking.user.id}</td>
-//             </tr>
-//           ))}
-//         </tbody>
-//       </table>
-//     </div>
-//   );
-// };
-
-
-// const ServiceManagement = () => (
-//   <div>
-//     <h3>Service Management</h3>
-//     <p>Manage your services here.</p>
-//   </div>
-// );
-
-// const FeedbackSection = () => (
-//   <div>
-//     <h3>Feedback</h3>
-//     <p>View and manage user feedback here.</p>
-//   </div>
-// );
-
-// export default AdminDashboard;
-// import React, { useState, useEffect } from 'react';
-// import './AdminDashboard.css';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faTachometerAlt, faUsers, faCalendarCheck, faTools, faComments } from '@fortawesome/free-solid-svg-icons';
-
-// const AdminDashboard = () => {
-//   const [activeSection, setActiveSection] = useState('dashboard');
-
-//   const renderContent = () => {
-//     switch (activeSection) {
-//       case 'dashboard':
-//         return <DashboardOverview />;
-//       case 'users':
-//         return <UserManagement />;
-//       case 'bookings':
-//         return <BookingManagement />;
-//       case 'services':
-//         return <ServiceManagement />;
-//       case 'feedback':
-//         return <FeedbackSection />;
-//       default:
-//         return <DashboardOverview />;
-//     }
-//   };
-
-//   return (
-//     <div className="admin-dashboard">
-//       <div className="admin-side-panel">
-//         <h2>Admin Panel</h2>
-//         <ul>
-//           <li onClick={() => setActiveSection('dashboard')}>
-//             <FontAwesomeIcon icon={faTachometerAlt} className="icon" /> Dashboard Overview
-//           </li>
-//           <li onClick={() => setActiveSection('users')}>
-//             <FontAwesomeIcon icon={faUsers} className="icon" /> User Management
-//           </li>
-//           <li onClick={() => setActiveSection('bookings')}>
-//             <FontAwesomeIcon icon={faCalendarCheck} className="icon" /> Booking Management
-//           </li>
-//           <li onClick={() => setActiveSection('services')}>
-//             <FontAwesomeIcon icon={faTools} className="icon" /> Service Management
-//           </li>
-//           <li onClick={() => setActiveSection('feedback')}>
-//             <FontAwesomeIcon icon={faComments} className="icon" /> Feedback
-//           </li>
-//         </ul>
-//       </div>
-//       <div className="admin-content">
-//         {renderContent()}
-//       </div>
-//     </div>
-//   );
-// };
-
-// const DashboardOverview = () => (
-//   <div>
-//     <h3>Dashboard Overview</h3>
-//     <p>Welcome to the admin dashboard. Here you can manage your application.</p>
-//   </div>
-// );
-
-// const UserManagement = () => (
-//   <div>
-//     <h3>User Management</h3>
-//     <p>Manage users and their roles here.</p>
-//   </div>
-// );
-
-// const BookingManagement = () => {
-//   const [bookings, setBookings] = useState([]);
-//   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState(null);
-
-//   useEffect(() => {
-//     const fetchBookings = async () => {
-//       try {
-//         const response = await fetch('http://localhost:8080/api/bookings', {
-//           headers: {
-//             'Authorization': `Bearer ${localStorage.getItem('token')}`,
-//           },
-//         });
-
-//         if (!response.ok) throw new Error('Failed to fetch bookings');
-
-//         const bookingsData = await response.json();
-//         console.log('Bookings Data:', bookingsData); // Log the data
-//         setBookings(bookingsData); // Ensure this is the correct data
-//         setLoading(false);
-//       } catch (error) {
-//         console.error('Error fetching bookings:', error);
-//         setError('Failed to load bookings');
-//         setLoading(false);
-//       }
-//     };
-
-//     fetchBookings();
-//   }, []);
-
-//   if (loading) return <p>Loading bookings...</p>;
-//   if (error) return <p>{error}</p>;
-
-//   return (
-//     <div>
-//       <h3>Booking Management</h3>
-//       {bookings.length === 0 ? (
-//         <p>No bookings available.</p>
-//       ) : (
-//         <table className="booking-table">
-//           <thead>
-//             <tr>
-//               <th>ID</th>
-//               <th>Name</th>
-//               <th>Phone</th>
-//               <th>Vehicle Number</th>
-//               <th>Service</th>
-//               <th>Problem Description</th>
-//               <th>Date</th>
-//               <th>Time</th>
-//               <th>User ID</th>
-//             </tr>
-//           </thead>
-//           <tbody>
-//             {bookings.map((booking) => (
-//               <tr key={booking.id}>
-//                 <td>{booking.id}</td>
-//                 <td>{booking.name}</td>
-//                 <td>{booking.phone}</td>
-//                 <td>{booking.vehicleNumber}</td>
-//                 <td>{booking.service}</td>
-//                 <td>{booking.problemDescription}</td>
-//                 <td>{booking.date}</td>
-//                 <td>{booking.time}</td>
-//                 <td>{booking.user.id}</td>
-//               </tr>
-//             ))}
-//           </tbody>
-//         </table>
-//       )}
-//     </div>
-//   );
-// };
-
-
-// const ServiceManagement = () => (
-//   <div>
-//     <h3>Service Management</h3>
-//     <p>Manage your services here.</p>
-//   </div>
-// );
-
-// const FeedbackSection = () => (
-//   <div>
-//     <h3>Feedback</h3>
-//     <p>View and manage user feedback here.</p>
-//   </div>
-// );
-
-// export default AdminDashboard;
 import React, { useState, useEffect } from 'react';
 import './AdminDashboard.css';
+import { TextField, Button, Typography } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTachometerAlt, faUsers, faCalendarCheck, faTools, faComments } from '@fortawesome/free-solid-svg-icons';
 import Services from './Services';
 import MediaCard from './Card';
 import MediaCard3 from './MediaCard3';
 import MediaCard2 from './MediaCard2';
+import TechManagement from './TechManangement';
 
 const AdminDashboard = () => {
   const [activeSection, setActiveSection] = useState('dashboard');
@@ -599,100 +64,14 @@ const AdminDashboard = () => {
   );
 };
 
-// Component for Dashboard Overview
-// const DashboardOverview = () => (
-//   <div>
-//     <h3>Dashboard Overview</h3>
-//     <p>Welcome to the admin dashboard. Here you can manage your application.</p>
-//   </div>
-// );
 const DashboardOverview = () => {
   const [dataCounts, setDataCounts] = useState({
     users: 0,
     bookings: 0,
     technicians: 0,
   });
-  // const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  // useEffect(() => {
-  //   const fetchCounts = async () => {
-  //     try {
-  //       const token = localStorage.getItem('token');
-
-  //       // Fetch user count
-  //       const usersResponse = await fetch('http://localhost:8080/api/users/count', {
-  //         headers: {
-  //           'Authorization': `Bearer ${token}`,
-  //         },
-  //       });
-  //       const usersCount = await usersResponse.json();
-
-  //       // Fetch booking count
-  //       const bookingsResponse = await fetch('http://localhost:8080/api/bookings/count', {
-  //         headers: {
-  //           'Authorization': `Bearer ${token}`,
-  //         },
-  //       });
-  //       const bookingsCount = await bookingsResponse.json();
-
-  //       // Fetch technician count
-  //       const techniciansResponse = await fetch('http://localhost:8080/api/technicians/count', {
-  //         headers: {
-  //           'Authorization': `Bearer ${token}`,
-  //         },
-  //       });
-  //       const techniciansCount = await techniciansResponse.json();
-
-  //       setDataCounts({
-  //         users: usersCount,
-  //         bookings: bookingsCount,
-  //         technicians: techniciansCount,
-  //       });
-  //       setLoading(false);
-  //     } catch (error) {
-  //       console.error('Error fetching counts:', error);
-  //       setError('Failed to load dashboard data');
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchCounts();
-  // }, []);
-
-  // if (loading) return <p>Loading dashboard data...</p>;
   if (error) return <p>{error}</p>;
-
-  // return (
-  //   <div className="dashboard-overview">
-  //     <h3>Dashboard Overview</h3>
-  //     <div className="progress-container">
-  //       <div className="progress-item">
-          
-  //         <div className="progress-bar">
-  //           <div className="progress" style={{ width: `${dataCounts.users}%` }}></div>
-  //         </div>
-  //         <MediaCard/>
-  //       </div>
-  //       <div className="progress-item">
-          
-  //         <div className="progress-bar">
-  //           <div className="progress" style={{ width: `${dataCounts.bookings}%` }}></div>
-  //         </div>
-  //         <MediaCard2/>
-  //         {/* <p>3 Bookings</p> */}
-  //       </div>
-  //       <div className="progress-item">
-  //         {/* <h4>Technicians</h4> */}
-  //         <div className="progress-bar">
-  //           <div className="progress" style={{ width: `${dataCounts.technicians}%` }}></div>
-  //         </div>
-  //         {/* <p>2 Technicians</p> */}
-  //         <MediaCard3/>
-  //       </div>
-  //     </div>
-  //   </div>
-  // );
 
 return (
   <div className="dashboard-overview">
@@ -856,81 +235,333 @@ const BookingManagement = () => {
   );
 };
 
-const TechManagement = () => {
-  const [Technicians, setTechnicians] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchTechnicians = async () => {
-      try {
-        const response = await fetch('http://localhost:8080/Technicians', {
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          },
-        });
+// const TechManagement = () => {
+//   const [technicians, setTechnicians] = useState([]);
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState(null);
+//   const [showForm, setShowForm] = useState(false);
+//   const [formData, setFormData] = useState({
+//     tech_id: '',
+//     name: '',
+//     phone: '',
+//     expert: '',
+//     gender: '',
+//     email: '',
+//     age: '',
+//     experience: '',
+//     joindate: '',
+//     address: '',
+//     password: '',
+//   });
 
-        if (!response.ok) throw new Error('Failed to fetch technicians');
+//   const fetchTechnicians = async () => {
+//     try {
+//       const response = await fetch('http://localhost:8080/Technicians', {
+//         headers: {
+//           Authorization: `Bearer ${localStorage.getItem('token')}`,
+//         },
+//       });
 
-        const servicesData = await response.json();
-        setTechnicians(servicesData);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching technicians:', error);
-        setError('Failed to load technicians');
-        setLoading(false);
-      }
-    };
+//       if (!response.ok) throw new Error('Failed to fetch technicians');
 
-    fetchTechnicians();
-  }, []);
+//       const servicesData = await response.json();
+//       setTechnicians(servicesData);
+//       setLoading(false);
+//     } catch (error) {
+//       console.error('Error fetching technicians:', error);
+//       setError('Failed to load technicians');
+//       setLoading(false);
+//     }
+//   };
 
-  if (loading) return <p>Loading Technicians...</p>;
-  if (error) return <p>{error}</p>;
+//   useEffect(() => {
+//     fetchTechnicians();
+//   }, []);
 
-  return (
-    <div>
-      <h3>Technicians Management</h3>
-      {Technicians.length === 0 ? (
-        <p>No Technicians available.</p>
-      ) : (
-        <table className="service-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Phone</th>
-              <th>Expert</th>
-              <th>Gender</th>
-              <th>Email</th>
-              <th>Age</th>
-              <th>Experience</th>
-              <th>JoinDate</th>
-              <th>Address</th>
-            </tr>
-          </thead>
-          <tbody>
-            {Technicians.map((tech) => (
-              <tr key={tech.tech_id}>
-                <td>{tech.tech_id}</td>
-                <td>{tech.name}</td>
-                <td>{tech.phone}</td>
-                <td>{tech.expert}</td>
-                <td>{tech.gender}</td>
-                <td>{tech.email}</td>
-                <td>{tech.age}</td>
-                <td>{tech.experience}</td>
-                <td>{tech.joindate}</td>
-                <td>{tech.address}</td>
+//   const handleChange = (e) => {
+//     setFormData({
+//       ...formData,
+//       [e.target.name]: e.target.value,
+//     });
+//   };
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     try {
+//       const response = await fetch('http://localhost:8080/Technicians', {
+//         method: 'POST',
+//         headers: {
+//           'Content-Type': 'application/json',
+//           Authorization: `Bearer ${localStorage.getItem('token')}`,
+//         },
+//         body: JSON.stringify(formData),
+//       });
+
+//       if (!response.ok) throw new Error('Failed to add technician');
+
+//       const newTechnician = await response.json();
+//       setTechnicians([...technicians, newTechnician]);
+//       setShowForm(false);
+//       setFormData({
+//         tech_id: '',
+//         name: '',
+//         phone: '',
+//         expert: '',
+//         gender: '',
+//         email: '',
+//         age: '',
+//         experience: '',
+//         joindate: '',
+//         address: '',
+//         password: '',
+//       });
+//     } catch (error) {
+//       console.error('Error adding technician:', error);
+//       setError('Failed to add technician');
+//     }
+//   };
+
+//   if (loading) return <p>Loading Technicians...</p>;
+//   if (error) return <p>{error}</p>;
+
+//   return (
+//     <div>
+//       <h3>Technicians Management</h3>
+//       <Button
+//         variant="contained"
+//         color="primary"
+//         onClick={() => setShowForm(!showForm)}
+//         style={{ marginBottom: '20px' }}
+//       >
+//         {showForm ? 'Cancel' : 'Add Technician'}
+//       </Button>
+
+//       {showForm && (
+//         <form className="tech-form" onSubmit={handleSubmit}>
+//           <Typography variant="h6" gutterBottom>
+//             Add New Technician
+//           </Typography>
+//           <TextField
+//             label="Technician ID"
+//             name="tech_id"
+//             value={formData.tech_id}
+//             onChange={handleChange}
+//             required
+//             fullWidth
+//             margin="normal"
+//           />
+//           <TextField
+//             label="Name"
+//             name="name"
+//             value={formData.name}
+//             onChange={handleChange}
+//             required
+//             fullWidth
+//             margin="normal"
+//           />
+//           <TextField
+//             label="Phone"
+//             name="phone"
+//             value={formData.phone}
+//             onChange={handleChange}
+//             required
+//             fullWidth
+//             margin="normal"
+//           />
+//           <TextField
+//             label="Expert"
+//             name="expert"
+//             value={formData.expert}
+//             onChange={handleChange}
+//             required
+//             fullWidth
+//             margin="normal"
+//           />
+//           <TextField
+//             label="Gender"
+//             name="gender"
+//             value={formData.gender}
+//             onChange={handleChange}
+//             required
+//             fullWidth
+//             margin="normal"
+//           />
+//           <TextField
+//             label="Email"
+//             name="email"
+//             value={formData.email}
+//             onChange={handleChange}
+//             required
+//             fullWidth
+//             margin="normal"
+//           />
+//           <TextField
+//             label="Age"
+//             name="age"
+//             value={formData.age}
+//             onChange={handleChange}
+//             required
+//             fullWidth
+//             margin="normal"
+//           />
+//           <TextField
+//             label="Experience"
+//             name="experience"
+//             value={formData.experience}
+//             onChange={handleChange}
+//             required
+//             fullWidth
+//             margin="normal"
+//           />
+//           <TextField
+//             label="Join Date"
+//             name="joindate"
+//             type="date"
+//             value={formData.joindate}
+//             onChange={handleChange}
+//             required
+//             fullWidth
+//             margin="normal"
+//             InputLabelProps={{ shrink: true }}
+//           />
+//           <TextField
+//             label="Address"
+//             name="address"
+//             value={formData.address}
+//             onChange={handleChange}
+//             required
+//             fullWidth
+//             margin="normal"
+//           />
+//           <TextField
+//             label="Password"
+//             name="password"
+//             type="password"
+//             value={formData.password}
+//             onChange={handleChange}
+//             required
+//             fullWidth
+//             margin="normal"
+//           />
+//           <Button variant="contained" color="primary" type="submit">
+//             Add Technician
+//           </Button>
+//         </form>
+//       )}
+
+//       <table className="service-table">
+//         <thead>
+//           <tr>
+//             <th>ID</th>
+//             <th>Name</th>
+//             <th>Phone</th>
+//             <th>Expert</th>
+//             <th>Gender</th>
+//             <th>Email</th>
+//             <th>Age</th>
+//             <th>Experience</th>
+//             <th>JoinDate</th>
+//             <th>Address</th>
+//           </tr>
+//         </thead>
+//         <tbody>
+//           {technicians.map((tech) => (
+//             <tr key={tech.tech_id}>
+//               <td>{tech.tech_id}</td>
+//               <td>{tech.name}</td>
+//               <td>{tech.phone}</td>
+//               <td>{tech.expert}</td>
+//               <td>{tech.gender}</td>
+//               <td>{tech.email}</td>
+//               <td>{tech.age}</td>
+//               <td>{tech.experience}</td>
+//               <td>{tech.joindate}</td>
+//               <td>{tech.address}</td>
+//             </tr>
+//           ))}
+//         </tbody>
+//       </table>
+//     </div>
+//   );
+// };
+
+
+// const TechManagement = () => {
+//   const [Technicians, setTechnicians] = useState([]);
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState(null);
+
+//   useEffect(() => {
+//     const fetchTechnicians = async () => {
+//       try {
+//         const response = await fetch('http://localhost:8080/Technicians', {
+//           headers: {
+//             'Authorization': `Bearer ${localStorage.getItem('token')}`,
+//           },
+//         });
+
+//         if (!response.ok) throw new Error('Failed to fetch technicians');
+
+//         const servicesData = await response.json();
+//         setTechnicians(servicesData);
+//         setLoading(false);
+//       } catch (error) {
+//         console.error('Error fetching technicians:', error);
+//         setError('Failed to load technicians');
+//         setLoading(false);
+//       }
+//     };
+
+//     fetchTechnicians();
+//   }, []);
+
+//   if (loading) return <p>Loading Technicians...</p>;
+//   if (error) return <p>{error}</p>;
+
+//   return (
+//     <div>
+//       <h3>Technicians Management</h3>
+//       {Technicians.length === 0 ? (
+//         <p>No Technicians available.</p>
+//       ) : (
+//         <table className="service-table">
+//           <thead>
+//             <tr>
+//               <th>ID</th>
+//               <th>Name</th>
+//               <th>Phone</th>
+//               <th>Expert</th>
+//               <th>Gender</th>
+//               <th>Email</th>
+//               <th>Age</th>
+//               <th>Experience</th>
+//               <th>JoinDate</th>
+//               <th>Address</th>
+//             </tr>
+//           </thead>
+//           <tbody>
+//             {Technicians.map((tech) => (
+//               <tr key={tech.tech_id}>
+//                 <td>{tech.tech_id}</td>
+//                 <td>{tech.name}</td>
+//                 <td>{tech.phone}</td>
+//                 <td>{tech.expert}</td>
+//                 <td>{tech.gender}</td>
+//                 <td>{tech.email}</td>
+//                 <td>{tech.age}</td>
+//                 <td>{tech.experience}</td>
+//                 <td>{tech.joindate}</td>
+//                 <td>{tech.address}</td>
               
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
-    </div>
-  );
-};
+//               </tr>
+//             ))}
+//           </tbody>
+//         </table>
+//       )}
+//     </div>
+//   );
+// };
 // Component for Feedback Section
 const FeedbackSection = () => {
   const [feedbacks, setFeedbacks] = useState([]);
