@@ -3,13 +3,15 @@ import { Box, Typography, Grid, Card, CardContent, Button, TextField, Dialog, Di
 import { Edit, Delete } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { FaOilCan, FaCarCrash, FaCog, FaBatteryFull, FaWrench, FaSnowflake, FaCompressArrowsAlt, FaCarSide, FaCarBattery, FaTools } from 'react-icons/fa';
+import { FaOilCan, FaCarCrash, FaCog, FaBatteryFull, FaWrench, FaSnowflake, FaCompressArrowsAlt, FaCarSide, FaCarBattery, FaTools, FaCar, FaTaxi, FaPaintBrush } from 'react-icons/fa';
 import './Services.css';
 
 const API_URL = 'http://localhost:8080/api/services';
 
 // Map icon names to actual icons
 const iconMapping = {
+  'FaCar':<FaCar/>,
+  'FaTaxi':<FaTaxi/>,'FaPaint':<FaPaintBrush/>,
   'FaOilCan': <FaOilCan />,
   'FaCarCrash': <FaCarCrash />,
   'FaCog': <FaCog />,

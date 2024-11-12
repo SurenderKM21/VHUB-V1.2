@@ -17,11 +17,6 @@ public class Technician {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int tech_id;
-
-    //  @OneToMany(mappedBy = "technician", cascade = CascadeType.ALL, orphanRemoval = true)
-    // @JsonManagedReference
-    // private List<Bookings> bookings;
-
     String name,address,phone,gender,expert,email,password;
     public Technician(int tech_id, String name, String address, String phone, String gender, String expert,
             String email, String password, int age, int experience, Date joindate) {

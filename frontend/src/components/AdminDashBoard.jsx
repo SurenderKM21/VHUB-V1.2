@@ -90,13 +90,9 @@ return (
 </div>
 );
 };
+
 // Component for User Management
 const UserManagement = () => {
-  // <div>
-  //   <h3>User Management</h3>
-  //   <p>Manage users and their roles here.</p>
-
-  // </div>
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -113,8 +109,11 @@ const UserManagement = () => {
         if (!response.ok) throw new Error('Failed to fetch bookings');
 
         const userData = await response.json();
-        // console.log(' Data:', bookingsData); // Log the data
-        setUsers(userData); // Ensure this is the correct data structure
+
+        // Filter users whose role is 'User'
+        const filteredUsers = userData.filter(user => user.role === 'User');
+
+        setUsers(filteredUsers); 
         setLoading(false);
       } catch (error) {
         console.error('Error fetching users:', error);
@@ -171,7 +170,7 @@ const BookingManagement = () => {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/bookings', {
+        const response = await fetch('http://localhost:8080/api/bookings/get', {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
           },
@@ -213,6 +212,7 @@ const BookingManagement = () => {
               <th>Problem Description</th>
               <th>Date</th>
               <th>Time</th>
+              <th>Status</th>
             </tr>
           </thead>
           <tbody>
@@ -226,6 +226,7 @@ const BookingManagement = () => {
                 <td>{booking.problemDescription}</td>
                 <td>{booking.date}</td>
                 <td>{booking.time}</td>
+                <td>{booking.status}</td>
               </tr>
             ))}
           </tbody>
@@ -236,333 +237,6 @@ const BookingManagement = () => {
 };
 
 
-// const TechManagement = () => {
-//   const [technicians, setTechnicians] = useState([]);
-//   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState(null);
-//   const [showForm, setShowForm] = useState(false);
-//   const [formData, setFormData] = useState({
-//     tech_id: '',
-//     name: '',
-//     phone: '',
-//     expert: '',
-//     gender: '',
-//     email: '',
-//     age: '',
-//     experience: '',
-//     joindate: '',
-//     address: '',
-//     password: '',
-//   });
-
-//   const fetchTechnicians = async () => {
-//     try {
-//       const response = await fetch('http://localhost:8080/Technicians', {
-//         headers: {
-//           Authorization: `Bearer ${localStorage.getItem('token')}`,
-//         },
-//       });
-
-//       if (!response.ok) throw new Error('Failed to fetch technicians');
-
-//       const servicesData = await response.json();
-//       setTechnicians(servicesData);
-//       setLoading(false);
-//     } catch (error) {
-//       console.error('Error fetching technicians:', error);
-//       setError('Failed to load technicians');
-//       setLoading(false);
-//     }
-//   };
-
-//   useEffect(() => {
-//     fetchTechnicians();
-//   }, []);
-
-//   const handleChange = (e) => {
-//     setFormData({
-//       ...formData,
-//       [e.target.name]: e.target.value,
-//     });
-//   };
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     try {
-//       const response = await fetch('http://localhost:8080/Technicians', {
-//         method: 'POST',
-//         headers: {
-//           'Content-Type': 'application/json',
-//           Authorization: `Bearer ${localStorage.getItem('token')}`,
-//         },
-//         body: JSON.stringify(formData),
-//       });
-
-//       if (!response.ok) throw new Error('Failed to add technician');
-
-//       const newTechnician = await response.json();
-//       setTechnicians([...technicians, newTechnician]);
-//       setShowForm(false);
-//       setFormData({
-//         tech_id: '',
-//         name: '',
-//         phone: '',
-//         expert: '',
-//         gender: '',
-//         email: '',
-//         age: '',
-//         experience: '',
-//         joindate: '',
-//         address: '',
-//         password: '',
-//       });
-//     } catch (error) {
-//       console.error('Error adding technician:', error);
-//       setError('Failed to add technician');
-//     }
-//   };
-
-//   if (loading) return <p>Loading Technicians...</p>;
-//   if (error) return <p>{error}</p>;
-
-//   return (
-//     <div>
-//       <h3>Technicians Management</h3>
-//       <Button
-//         variant="contained"
-//         color="primary"
-//         onClick={() => setShowForm(!showForm)}
-//         style={{ marginBottom: '20px' }}
-//       >
-//         {showForm ? 'Cancel' : 'Add Technician'}
-//       </Button>
-
-//       {showForm && (
-//         <form className="tech-form" onSubmit={handleSubmit}>
-//           <Typography variant="h6" gutterBottom>
-//             Add New Technician
-//           </Typography>
-//           <TextField
-//             label="Technician ID"
-//             name="tech_id"
-//             value={formData.tech_id}
-//             onChange={handleChange}
-//             required
-//             fullWidth
-//             margin="normal"
-//           />
-//           <TextField
-//             label="Name"
-//             name="name"
-//             value={formData.name}
-//             onChange={handleChange}
-//             required
-//             fullWidth
-//             margin="normal"
-//           />
-//           <TextField
-//             label="Phone"
-//             name="phone"
-//             value={formData.phone}
-//             onChange={handleChange}
-//             required
-//             fullWidth
-//             margin="normal"
-//           />
-//           <TextField
-//             label="Expert"
-//             name="expert"
-//             value={formData.expert}
-//             onChange={handleChange}
-//             required
-//             fullWidth
-//             margin="normal"
-//           />
-//           <TextField
-//             label="Gender"
-//             name="gender"
-//             value={formData.gender}
-//             onChange={handleChange}
-//             required
-//             fullWidth
-//             margin="normal"
-//           />
-//           <TextField
-//             label="Email"
-//             name="email"
-//             value={formData.email}
-//             onChange={handleChange}
-//             required
-//             fullWidth
-//             margin="normal"
-//           />
-//           <TextField
-//             label="Age"
-//             name="age"
-//             value={formData.age}
-//             onChange={handleChange}
-//             required
-//             fullWidth
-//             margin="normal"
-//           />
-//           <TextField
-//             label="Experience"
-//             name="experience"
-//             value={formData.experience}
-//             onChange={handleChange}
-//             required
-//             fullWidth
-//             margin="normal"
-//           />
-//           <TextField
-//             label="Join Date"
-//             name="joindate"
-//             type="date"
-//             value={formData.joindate}
-//             onChange={handleChange}
-//             required
-//             fullWidth
-//             margin="normal"
-//             InputLabelProps={{ shrink: true }}
-//           />
-//           <TextField
-//             label="Address"
-//             name="address"
-//             value={formData.address}
-//             onChange={handleChange}
-//             required
-//             fullWidth
-//             margin="normal"
-//           />
-//           <TextField
-//             label="Password"
-//             name="password"
-//             type="password"
-//             value={formData.password}
-//             onChange={handleChange}
-//             required
-//             fullWidth
-//             margin="normal"
-//           />
-//           <Button variant="contained" color="primary" type="submit">
-//             Add Technician
-//           </Button>
-//         </form>
-//       )}
-
-//       <table className="service-table">
-//         <thead>
-//           <tr>
-//             <th>ID</th>
-//             <th>Name</th>
-//             <th>Phone</th>
-//             <th>Expert</th>
-//             <th>Gender</th>
-//             <th>Email</th>
-//             <th>Age</th>
-//             <th>Experience</th>
-//             <th>JoinDate</th>
-//             <th>Address</th>
-//           </tr>
-//         </thead>
-//         <tbody>
-//           {technicians.map((tech) => (
-//             <tr key={tech.tech_id}>
-//               <td>{tech.tech_id}</td>
-//               <td>{tech.name}</td>
-//               <td>{tech.phone}</td>
-//               <td>{tech.expert}</td>
-//               <td>{tech.gender}</td>
-//               <td>{tech.email}</td>
-//               <td>{tech.age}</td>
-//               <td>{tech.experience}</td>
-//               <td>{tech.joindate}</td>
-//               <td>{tech.address}</td>
-//             </tr>
-//           ))}
-//         </tbody>
-//       </table>
-//     </div>
-//   );
-// };
-
-
-// const TechManagement = () => {
-//   const [Technicians, setTechnicians] = useState([]);
-//   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState(null);
-
-//   useEffect(() => {
-//     const fetchTechnicians = async () => {
-//       try {
-//         const response = await fetch('http://localhost:8080/Technicians', {
-//           headers: {
-//             'Authorization': `Bearer ${localStorage.getItem('token')}`,
-//           },
-//         });
-
-//         if (!response.ok) throw new Error('Failed to fetch technicians');
-
-//         const servicesData = await response.json();
-//         setTechnicians(servicesData);
-//         setLoading(false);
-//       } catch (error) {
-//         console.error('Error fetching technicians:', error);
-//         setError('Failed to load technicians');
-//         setLoading(false);
-//       }
-//     };
-
-//     fetchTechnicians();
-//   }, []);
-
-//   if (loading) return <p>Loading Technicians...</p>;
-//   if (error) return <p>{error}</p>;
-
-//   return (
-//     <div>
-//       <h3>Technicians Management</h3>
-//       {Technicians.length === 0 ? (
-//         <p>No Technicians available.</p>
-//       ) : (
-//         <table className="service-table">
-//           <thead>
-//             <tr>
-//               <th>ID</th>
-//               <th>Name</th>
-//               <th>Phone</th>
-//               <th>Expert</th>
-//               <th>Gender</th>
-//               <th>Email</th>
-//               <th>Age</th>
-//               <th>Experience</th>
-//               <th>JoinDate</th>
-//               <th>Address</th>
-//             </tr>
-//           </thead>
-//           <tbody>
-//             {Technicians.map((tech) => (
-//               <tr key={tech.tech_id}>
-//                 <td>{tech.tech_id}</td>
-//                 <td>{tech.name}</td>
-//                 <td>{tech.phone}</td>
-//                 <td>{tech.expert}</td>
-//                 <td>{tech.gender}</td>
-//                 <td>{tech.email}</td>
-//                 <td>{tech.age}</td>
-//                 <td>{tech.experience}</td>
-//                 <td>{tech.joindate}</td>
-//                 <td>{tech.address}</td>
-              
-//               </tr>
-//             ))}
-//           </tbody>
-//         </table>
-//       )}
-//     </div>
-//   );
-// };
-// Component for Feedback Section
 const FeedbackSection = () => {
   const [feedbacks, setFeedbacks] = useState([]);
   const [loading, setLoading] = useState(true);

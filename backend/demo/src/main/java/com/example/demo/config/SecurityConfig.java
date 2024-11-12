@@ -41,7 +41,7 @@ public class SecurityConfig {
         "/swagger-ui.html/**",
         "/api/admin/default",
         "/v3/api-docs/**",
-        
+        "/api/bookings/**",
         "/api/properties/**"
     };
 

@@ -2,6 +2,7 @@ package com.example.demo.dto;
 
 import lombok.Data;
 
+
 @Data
 public class BookingDTO {
     private String name;
@@ -12,4 +13,5 @@ public class BookingDTO {
     private String time;
     private String problemDescription,email;
     private long customerId;
+    // private Status status;
 }

@@ -151,6 +151,23 @@ public class AuthServiceImpl implements AuthService {
         userRepository.save(user);
         return "User registered successfully.";
     }
+    @Override
+    public String registerTech(RegisterRequest registerRequest) {
+        Optional<User> userExist = userRepository.findByEmail(registerRequest.getEmail());
+        if (userExist.isPresent()) {
+            return "User already exists with email id " + registerRequest.getEmail();
+        }
+        var user = User.builder()
+                .name(registerRequest.getName())
+                .email(registerRequest.getEmail())
+                .password(passwordEncoder.encode(registerRequest.getPassword()))
+                .phone(registerRequest.getPhone())
+                .address(registerRequest.getAddress())
+                .role(Role.Technician) // Default role
+                .build();
+        userRepository.save(user);
+        return "User registered successfully.";
+    }
 
     @Override
     public LoginResponse login(LoginRequest loginRequest) {

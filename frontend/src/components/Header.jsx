@@ -29,7 +29,7 @@ console.log(user);
         {!admin && !tech && <Link to="/about">ABOUT US</Link>}
         {!admin && !tech && <Link to="/service">SERVICES</Link>}
         {!admin && !tech && <Link to="/book">BOOK NOW</Link>}
-        {user && !tech && !admin && <Link to="/feedback">FEEDBACK</Link>}
+        {/* {user && !tech && !admin && <Link to="/feedback">FEEDBACK</Link>} */}
         {user ? (
           <div className="user-menu">
             <FaUserCircle className="user-icon" />

@@ -26,8 +26,11 @@ const MediaCard = () => {
         if (!response.ok) throw new Error('Failed to fetch bookings');
 
         const userData = await response.json();
-        // console.log(' Data:', bookingsData); // Log the data
-        setUsers(userData); // Ensure this is the correct data structure
+
+        // Filter users whose role is 'User'
+        const filteredUsers = userData.filter(user => user.role === 'User');
+
+        setUsers(filteredUsers); 
         setLoading(false);
       } catch (error) {
         console.error('Error fetching users:', error);

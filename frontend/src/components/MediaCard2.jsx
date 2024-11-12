@@ -14,12 +14,14 @@ const MediaCard2 = () => {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/bookings', {
+        const response = await fetch('http://localhost:8080/api/bookings/get', {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            'Content-Type': 'application/json',
           },
         });
 
+        console.log('TOKEN :', localStorage.getItem('token')); // Log the data
         if (!response.ok) throw new Error('Failed to fetch bookings');
 
         const bookingsData = await response.json();

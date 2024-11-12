@@ -25,11 +25,19 @@ public class AuthController {
 
     private final AuthService authService;
 
+    
     @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping("/api/auth/register")
     @Operation(summary = "Register a new user", description = "Allows users to register by providing necessary registration details.")
     public ResponseEntity<?> register(@Parameter(description = "Registration details of the user") @RequestBody RegisterRequest registerRequest) {
         return new ResponseEntity<>(authService.register(registerRequest), OK);
+    }
+
+    @CrossOrigin(origins = "http://localhost:5173")
+    @PostMapping("/api/auth/register/tech")
+    @Operation(summary = "Register a new user", description = "Allows users to register by providing necessary registration details.")
+    public ResponseEntity<?> registertech(@Parameter(description = "Registration details of the user") @RequestBody RegisterRequest registerRequest) {
+        return new ResponseEntity<>(authService.registerTech(registerRequest), OK);
     }
 
     @CrossOrigin(origins = "http://localhost:5173")

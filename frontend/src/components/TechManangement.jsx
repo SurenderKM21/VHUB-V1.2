@@ -54,6 +54,7 @@ const TechManagement = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      // Add technician
       const response = await fetch('http://localhost:8080/Technicians', {
         method: 'POST',
         headers: {
@@ -62,12 +63,27 @@ const TechManagement = () => {
         },
         body: JSON.stringify(formData),
       });
-
+  
       if (!response.ok) throw new Error('Failed to add technician');
-
+  
       const newTechnician = await response.json();
+  
+      // Now, register the user (create a user in the User table) with role "Technician"
+      const userResponse = await fetch('http://localhost:8080/api/auth/register/tech', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          address: formData.address,
+          password: formData.password, // Set the role as Technician
+        }),
+      });
       setTechnicians([...technicians, newTechnician]);
-      handleClose(); // Close the dialog after adding
+      handleClose();
       setFormData({
         tech_id: '',
         name: '',
@@ -82,30 +98,59 @@ const TechManagement = () => {
         password: '',
       });
     } catch (error) {
-      console.error('Error adding technician:', error);
-      setError('Failed to add technician');
+      console.error('Error adding technician or user:', error);
+      setError('Failed to add technician or user');
     }
   };
+  
+  
 
   const handleDelete = async (tech_id) => {
     try {
-      const response = await fetch(`http://localhost:8080/Technicians/${tech_id}`, {
+      // Fetch the technician to get the user information (e.g., email)
+      const technicianResponse = await fetch(`http://localhost:8080/Technicians/${tech_id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+  
+      if (!technicianResponse.ok) throw new Error('Failed to fetch technician');
+  
+      const technician = await technicianResponse.json();
+  
+      // Assuming the technician object contains the user's email
+      const userEmail = technician.email;  // Get the technician's associated email
+  
+      // Delete the technician
+      const deleteTechnicianResponse = await fetch(`http://localhost:8080/Technicians/${tech_id}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       });
-
-      if (!response.ok) throw new Error('Failed to delete technician');
-
+  
+      if (!deleteTechnicianResponse.ok) throw new Error('Failed to delete technician');
+  
+      // Now, delete the associated user by email (no password needed)
+      const deleteUserResponse = await fetch(`http://localhost:8080/api/users/email/${userEmail}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+  
+      if (!deleteUserResponse.ok) throw new Error('Failed to delete user');
+  
       // Remove the technician from the state
       setTechnicians(technicians.filter((tech) => tech.tech_id !== tech_id));
+  
     } catch (error) {
-      console.error('Error deleting technician:', error);
-      setError('Failed to delete technician');
+      console.error('Error deleting technician or user:', error);
+      setError('Failed to delete technician or user');
     }
   };
-
+  
+  
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -119,6 +164,7 @@ const TechManagement = () => {
 
   return (
     <div>
+      
       <h3>Technicians Management</h3>
       <Button variant="contained" color="primary" onClick={handleClickOpen}>
         Add New Technician

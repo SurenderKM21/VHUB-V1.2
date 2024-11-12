@@ -83,7 +83,11 @@ const handleSignup = async (e) => {
       );
       
       console.log('Response:', response.data);
-      
+      if(response.data.includes('User already exists with email id'))
+      {
+        toast.error('User already exists with email id');
+        return;
+      }
       // // Optionally store the user data locally if needed
       // const existingUsers = JSON.parse(localStorage.getItem('users')) || [];
       // existingUsers.push(formData);
