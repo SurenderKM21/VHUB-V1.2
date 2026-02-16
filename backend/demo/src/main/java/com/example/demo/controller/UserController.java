@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")
@@ -23,7 +24,10 @@ public class UserController {
     public User getProfile(@PathVariable Long userId) {
         return userService.getUserById(userId);
     }
-
+    @PatchMapping("/{userId}")
+    public User patchUser(@PathVariable Long userId, @RequestBody Map<String, Object> updates) {
+        return userService.partialUpdateUser(userId, updates);
+    }
     @GetMapping("/email/{email}")
     public User getProfileByEmail(@PathVariable String email) {
         return userService.getUserByEmail(email);

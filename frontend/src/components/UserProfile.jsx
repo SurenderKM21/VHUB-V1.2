@@ -1,113 +1,145 @@
 import React, { useState, useEffect } from 'react';
-import { FaUserCircle } from 'react-icons/fa'; // Import the user profile icon
-import './UserProfile.css'; // Import the CSS file
+import { Button, TextField, Typography, Grid, Paper } from '@mui/material';
+import axios from 'axios';
 
 const UserProfile = () => {
-    const [userData, setUserData] = useState({
-        username: '',
-        email: '',
-        phone: '',
-        location: '',
-        profilePicture: ''
-    });
-    const [isEditing, setIsEditing] = useState(false);
+  const [user, setUser] = useState({
+    name: '',
+    email: '',
+    address: '',
+    phone: '',
+    gender: '',
+  });
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedUser, setEditedUser] = useState({ ...user });
 
-    useEffect(() => {
-        const savedUserData = JSON.parse(localStorage.getItem('userData'));
-        if (savedUserData) {
-            setUserData(savedUserData);
-        } else {
-            setUserData({
-                username: 'Tarun',
-                email: 'tarun@gmail.com',
-                phone: '9798745631',
-                location: 'CBE',
-                profilePicture: '' // No need for a profile picture URL
-            });
-        }
-    }, []);
-
-    const handleInputChange = (e) => {
-        const { id, value } = e.target;
-        setUserData(prevData => ({
-            ...prevData,
-            [id]: value
-        }));
+  // Fetch user details on component mount
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get('/api/user/profile'); // Update with your API endpoint
+        setUser(response.data);
+        setEditedUser(response.data);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
     };
+    fetchUserData();
+  }, []);
 
-    const handleSave = () => {
-        localStorage.setItem('userData', JSON.stringify(userData));
-        setIsEditing(false);
-    };
+  // Handle input changes for the edit form
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditedUser({ ...editedUser, [name]: value });
+  };
 
-    return (
-        <div className='user-profile-container'>
-            <div className='flex flex-col items-center w-full max-w-2xl'>
-                {/* Profile Icon */}
-                <div className='w-full flex justify-center mb-6'>
-                    <FaUserCircle className='profile-icon' /> {/* Large colorful user profile icon */}
-                </div>
+  // Toggle edit mode
+  const handleEditClick = () => {
+    setIsEditing(!isEditing);
+  };
 
-                {/* Conditional Rendering for Edit Mode */}
-                {isEditing ? (
-                    <div className='profile-card'>
-                        {/* Editable Fields */}
-                        <div className='space-y-6'>
-                            {['username', 'email', 'phone', 'location'].map((field) => (
-                                <div key={field} className='input-field'>
-                                    <label htmlFor={field}>{field.charAt(0).toUpperCase() + field.slice(1)}:</label>
-                                    <input
-                                        id={field}
-                                        type={field === 'email' ? 'email' : 'text'}
-                                        value={userData[field]}
-                                        onChange={handleInputChange}
-                                    />
-                                </div>
-                            ))}
-                        </div>
-                        {/* Save and Cancel Buttons */}
-                        <div className='button-container'>
-                            <button
-                                type='button'
-                                onClick={handleSave}
-                                className='button button-save'
-                            >
-                                Save
-                            </button>
-                            <button
-                                type='button'
-                                onClick={() => setIsEditing(false)}
-                                className='button button-cancel'
-                            >
-                                Cancel
-                            </button>
-                        </div>
-                    </div>
-                ) : (
-                    <div className='profile-card'>
-                        {/* Display User Data */}
-                        <div className='space-y-6'>
-                            {['username', 'email', 'phone', 'location'].map((field) => (
-                                <div key={field} className='text-lg'>
-                                    <span className='font-semibold heading'>{field.charAt(0).toUpperCase() + field.slice(1)}: </span>{userData[field]}
-                                </div>
-                            ))}
-                        </div>
-                        {/* Edit Button */}
-                        <div className='mt-6 flex justify-center'>
-                            <button
-                                type='button'
-                                onClick={() => setIsEditing(true)}
-                                className='button button-save'
-                            >
-                                Edit Profile
-                            </button>
-                        </div>
-                    </div>
-                )}
-            </div>
-        </div>
-    );
+  // Save edited user details
+  const handleSaveClick = async () => {
+    try {
+      await axios.put('/api/user/profile', editedUser); // Update with your API endpoint
+      setUser(editedUser);
+      setIsEditing(false);
+    } catch (error) {
+      console.error('Error updating user data:', error);
+    }
+  };
+
+  return (
+    <Paper elevation={3} style={{ padding: '20px', maxWidth: '600px', margin: '20px auto' }}>
+      <Typography variant="h4" gutterBottom>
+        User Profile
+      </Typography>
+      <Grid container spacing={2}>
+        {/* Name */}
+        <Grid item xs={12}>
+          <TextField
+            label="Name"
+            name="name"
+            fullWidth
+            value={isEditing ? editedUser.name : user.name}
+            onChange={handleInputChange}
+            InputProps={{ readOnly: !isEditing }}
+          />
+        </Grid>
+
+        {/* Email */}
+        <Grid item xs={12}>
+          <TextField
+            label="Email"
+            name="email"
+            fullWidth
+            value={isEditing ? editedUser.email : user.email}
+            onChange={handleInputChange}
+            InputProps={{ readOnly: !isEditing }}
+          />
+        </Grid>
+
+        {/* Address */}
+        <Grid item xs={12}>
+          <TextField
+            label="Address"
+            name="address"
+            fullWidth
+            value={isEditing ? editedUser.address : user.address}
+            onChange={handleInputChange}
+            InputProps={{ readOnly: !isEditing }}
+          />
+        </Grid>
+
+        {/* Phone */}
+        <Grid item xs={12}>
+          <TextField
+            label="Phone"
+            name="phone"
+            fullWidth
+            value={isEditing ? editedUser.phone : user.phone}
+            onChange={handleInputChange}
+            InputProps={{ readOnly: !isEditing }}
+          />
+        </Grid>
+
+        {/* Gender */}
+        <Grid item xs={12}>
+          <TextField
+            label="Gender"
+            name="gender"
+            fullWidth
+            value={isEditing ? editedUser.gender : user.gender}
+            onChange={handleInputChange}
+            InputProps={{ readOnly: !isEditing }}
+          />
+        </Grid>
+
+        {/* Buttons */}
+        <Grid item xs={12} style={{ textAlign: 'right' }}>
+          {isEditing ? (
+            <>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleSaveClick}
+                style={{ marginRight: '10px' }}
+              >
+                Save
+              </Button>
+              <Button variant="outlined" onClick={handleEditClick}>
+                Cancel
+              </Button>
+            </>
+          ) : (
+            <Button variant="contained" color="secondary" onClick={handleEditClick}>
+              Edit
+            </Button>
+          )}
+        </Grid>
+      </Grid>
+    </Paper>
+  );
 };
 
 export default UserProfile;

@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -18,6 +20,35 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public User partialUpdateUser(Long userId, Map<String, Object> updates) {
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (!userOptional.isPresent()) {
+            throw new RuntimeException("User not found with ID: " + userId);
+        }
+
+        User user = userOptional.get();
+        
+        // Apply the updates from the map
+        updates.forEach((key, value) -> {
+            switch (key) {
+                case "name":
+                    user.setName((String) value);
+                    break;
+                case "email":
+                    user.setEmail((String) value);
+                    break;
+                case "phone":
+                    user.setPhone((String) value);
+                    break;
+                case "address":
+                    user.setAddress((String) value);
+                    break;
+                // Add more fields if needed
+            }
+        });
+
+        return userRepository.save(user);
+    }
     // Get user by ID
     public User getUserById(Long userId) {
         return userRepository.findById(userId)

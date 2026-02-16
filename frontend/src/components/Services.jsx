@@ -11,7 +11,7 @@ const API_URL = 'http://localhost:8080/api/services';
 // Map icon names to actual icons
 const iconMapping = {
   'FaCar':<FaCar/>,
-  'FaTaxi':<FaTaxi/>,'FaPaint':<FaPaintBrush/>,
+  'FaTaxi':<FaTaxi/>,'FaPaints':<FaPaintBrush/>,
   'FaOilCan': <FaOilCan />,
   'FaCarCrash': <FaCarCrash />,
   'FaCog': <FaCog />,
