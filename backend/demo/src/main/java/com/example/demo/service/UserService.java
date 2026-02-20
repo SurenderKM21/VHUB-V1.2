@@ -1,100 +1,71 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.request.PasswordChangeRequest;
 import com.example.demo.model.User;
 import com.example.demo.repo.UserRepo;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
-    @Autowired
-    private UserRepo userRepository;
+    private final UserRepo userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    // Get all users
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
+    public User getUserById(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+    }
+
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found with email: " + email));
+    }
+
     public User partialUpdateUser(Long userId, Map<String, Object> updates) {
-        Optional<User> userOptional = userRepository.findById(userId);
-        if (!userOptional.isPresent()) {
-            throw new RuntimeException("User not found with ID: " + userId);
-        }
-
-        User user = userOptional.get();
-
-        // Apply the updates from the map
+        User user = getUserById(userId);
         updates.forEach((key, value) -> {
             switch (key) {
-                case "name":
-                    user.setName((String) value);
-                    break;
-                case "email":
-                    user.setEmail((String) value);
-                    break;
-                case "phone":
-                    user.setPhone((String) value);
-                    break;
-                case "address":
-                    user.setAddress((String) value);
-                    break;
-                // Add more fields if needed
+                case "name" -> user.setName((String) value);
+                case "email" -> user.setEmail((String) value);
+                case "phone" -> user.setPhone((String) value);
+                case "address" -> user.setAddress((String) value);
             }
         });
-
         return userRepository.save(user);
     }
 
-    // Get user by ID
-    public User getUserById(Long userId) {
-        return userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+    public User updateUser(User user) {
+        if (!userRepository.existsById(user.getUid())) {
+            throw new RuntimeException("User not found with id: " + user.getUid());
+        }
+        return userRepository.save(user);
     }
 
-    // Get user by email
-    public User getUserByEmail(String email) {
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-    }
-
-    // Delete user by userId
     public void deleteUser(Long userId) {
         userRepository.deleteById(userId);
     }
 
-    // Delete user by email
     public void deleteUserByEmail(String email) {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found with email " + email));
+        User user = getUserByEmail(email);
         userRepository.delete(user);
     }
 
-    @Autowired
-    private org.springframework.security.crypto.password.PasswordEncoder passwordEncoder;
-
-    public void changePassword(Long userId, com.example.demo.dto.request.PasswordChangeRequest request) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
+    public void changePassword(Long userId, PasswordChangeRequest request) {
+        User user = getUserById(userId);
         if (!passwordEncoder.matches(request.getOldPassword(), user.getPassword())) {
             throw new RuntimeException("Incorrect old password");
         }
-
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
         userRepository.save(user);
-    }
-
-    // Update user
-    public User updateUser(User user) {
-        // Ensure the user exists before updating
-        if (!userRepository.existsById(user.getUid())) {
-            throw new RuntimeException("User not found");
-        }
-        return userRepository.save(user);
     }
 }

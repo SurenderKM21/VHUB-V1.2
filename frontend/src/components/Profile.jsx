@@ -5,6 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './UserProfile.css';
 import './Profile.css'; // Keep original for background
+import axios from 'axios';
 
 const API_URL = 'http://localhost:8080/api/profile';
 
@@ -35,23 +36,16 @@ const Profile = () => {
       }
 
       try {
-        // Fetch user by email to get the ID and current details
-        const response = await fetch(`http://localhost:8080/api/users/email/${email}`, {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-          },
+        const { data: userData } = await axios.get(`http://localhost:8080/api/users/email/${email}`, {
+          headers: { 'Authorization': `Bearer ${token}` },
         });
-
-        if (!response.ok) throw new Error('Failed to fetch profile');
-        const userData = await response.json();
-
-        setUserId(userData.uid || userData.id); // Store ID for updates
+        setUserId(userData.uid || userData.id);
         setFormData({
           name: userData.name || '',
           email: userData.email || '',
           phone: userData.phone || '',
           address: userData.address || '',
-          password: '', // Don't pre-fill password
+          password: '',
         });
         setLoading(false);
       } catch (error) {
@@ -87,24 +81,10 @@ const Profile = () => {
         return;
       }
 
-      // Use the specific profile update endpoint
-      const response = await fetch(API_URL, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          ...formData,
-          id: userId,
-        }),
+      await axios.put(API_URL, { ...formData, id: userId }, {
+        headers: { 'Authorization': `Bearer ${token}` },
       });
-
-      if (!response.ok) throw new Error('Failed to update profile');
-
       toast.success('Profile Updated Successfully');
-      // Update localStorage logic if needed, but mainly we rely on fetching
-
     } catch (error) {
       console.error('Error updating profile:', error);
       toast.error('Failed to update profile.');
@@ -130,30 +110,22 @@ const Profile = () => {
     }
 
     try {
-      const response = await fetch(`${API_URL}?userId=${userId}&password=${deletePassword}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
+      await axios.delete(`${API_URL}?userId=${userId}&password=${deletePassword}`, {
+        headers: { 'Authorization': `Bearer ${token}` },
       });
-
-      if (response.ok) {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        localStorage.removeItem('userEmail');
-        localStorage.removeItem('role');
-        toast.success('Profile Deleted. Redirecting...');
-        setTimeout(() => navigate('/login'), 2000);
-      } else {
-        if (response.status === 401) {
-          toast.error('Incorrect password.');
-        } else {
-          toast.error('Failed to delete profile.');
-        }
-      }
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      localStorage.removeItem('userEmail');
+      localStorage.removeItem('role');
+      toast.success('Profile Deleted. Redirecting...');
+      setTimeout(() => navigate('/login'), 2000);
     } catch (error) {
       console.error('Error deleting profile:', error);
-      toast.error('Error deleting profile.');
+      if (error.response?.status === 401) {
+        toast.error('Incorrect password.');
+      } else {
+        toast.error('Error deleting profile.');
+      }
     }
   };
 

@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { FaOilCan, FaCarCrash, FaCog, FaBatteryFull, FaWrench, FaSnowflake, FaCompressArrowsAlt, FaCarSide, FaCarBattery, FaTools, FaCar, FaTaxi, FaPaintBrush } from 'react-icons/fa';
 import './Services.css';
+import axios from 'axios';
 
 const API_URL = 'http://localhost:8080/api/services';
 
@@ -42,24 +43,10 @@ const Services = ({ isAdminView = false }) => {
       }
 
       try {
-        const response = await fetch(API_URL, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
-          },
+        const { data: fetchedServices } = await axios.get(API_URL, {
+          headers: { 'Authorization': `Bearer ${token}` },
         });
-
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-
-        const fetchedServices = await response.json();
-
-        // Store fetched services in local storage
         localStorage.setItem('services', JSON.stringify(fetchedServices));
-
-        // Set services state
         setServices(fetchedServices);
       } catch (error) {
         console.error('Error fetching services:', error);
@@ -87,25 +74,11 @@ const Services = ({ isAdminView = false }) => {
   const handleAddService = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(API_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-        body: JSON.stringify(currentService),
+      const { data: newService } = await axios.post(API_URL, currentService, {
+        headers: { 'Authorization': `Bearer ${token}` },
       });
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-
-      const newService = await response.json();
       const updatedServices = [...services, newService];
-
-      // Update local storage with the new service
       localStorage.setItem('services', JSON.stringify(updatedServices));
-
       setServices(updatedServices);
       setCurrentService({ id: '', title: '', description: '', icon: '', cost: '' });
       setOpen(false);
@@ -118,19 +91,11 @@ const Services = ({ isAdminView = false }) => {
   const handleDeleteService = async (id) => {
     try {
       const token = localStorage.getItem('token');
-      await fetch(`${API_URL}/${id}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
+      await axios.delete(`${API_URL}/${id}`, {
+        headers: { 'Authorization': `Bearer ${token}` },
       });
-
-      // Filter out the deleted service
       const updatedServices = services.filter(service => service.id !== id);
-
-      // Update local storage with the remaining services
       localStorage.setItem('services', JSON.stringify(updatedServices));
-
       setServices(updatedServices);
     } catch (error) {
       console.error('Error deleting service:', error);
@@ -140,27 +105,13 @@ const Services = ({ isAdminView = false }) => {
   const handleEditService = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`${API_URL}/${currentService.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-        body: JSON.stringify(currentService),
+      const { data: updatedService } = await axios.put(`${API_URL}/${currentService.id}`, currentService, {
+        headers: { 'Authorization': `Bearer ${token}` },
       });
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-
-      const updatedService = await response.json();
       const updatedServices = services.map(service =>
         service.id === updatedService.id ? updatedService : service
       );
-
-      // Update local storage with the updated services
       localStorage.setItem('services', JSON.stringify(updatedServices));
-
       setServices(updatedServices);
       setCurrentService({ id: '', title: '', description: '', icon: '', cost: '' });
       setOpen(false);

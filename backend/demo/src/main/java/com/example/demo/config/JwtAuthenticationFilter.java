@@ -58,6 +58,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                             userDetails, null, userDetails.getAuthorities());
                     authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authToken);
+                    System.out.println("Auth OK: " + username + " | authorities=" + userDetails.getAuthorities());
+                } else {
+                    System.err.println("JWT rejected for user: " + username +
+                            " | jwtValid=" + jwtTokenUtil.isTokenValid(token, userDetails) +
+                            " | dbValid=" + isTokenValid);
                 }
             }
         } catch (Exception e) {

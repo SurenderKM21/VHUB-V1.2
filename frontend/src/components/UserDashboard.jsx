@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '../features/auth/authSlice';
 import Services from './Services';
+import axios from 'axios';
 const UserDashboard = () => {
   const [activeSection, setActiveSection] = useState(() => {
     return localStorage.getItem('user_active_section') || 'dashboard';
@@ -107,14 +108,9 @@ const UserManagement = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/api/users/email/${user.email}`, {
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          },
+        const { data: userData } = await axios.get(`http://localhost:8080/api/users/email/${user.email}`, {
+          headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
         });
-
-        if (!response.ok) throw new Error('Failed to fetch user');
-        const userData = await response.json();
         setFetchedUser(userData);
         setEditableUser({
           name: userData.name,
@@ -153,17 +149,11 @@ const UserManagement = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:8080/api/users/${fetchedUser.uid}`, {
-        method: 'PATCH',
+      const { data: updatedUser } = await axios.patch(`http://localhost:8080/api/users/${fetchedUser.uid}`, editableUser, {
         headers: {
-          'Content-Type': 'application/json',
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
-        body: JSON.stringify(editableUser),
       });
-
-      if (!response.ok) throw new Error('Failed to update user');
-      const updatedUser = await response.json();
       setFetchedUser(updatedUser);
       toast.success('Profile updated successfully!');
     } catch (error) {
@@ -178,26 +168,14 @@ const UserManagement = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:8080/api/users/${fetchedUser.uid}/change-password`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        },
-        body: JSON.stringify({
-          oldPassword: passwords.oldPassword,
-          newPassword: passwords.newPassword
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Enter correct old password');
-      }
-
+      await axios.post(`http://localhost:8080/api/users/${fetchedUser.uid}/change-password`,
+        { oldPassword: passwords.oldPassword, newPassword: passwords.newPassword },
+        { headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` } }
+      );
       toast.success('Password changed successfully!');
       setPasswords({ oldPassword: '', newPassword: '', confirmPassword: '' });
     } catch (error) {
-      toast.error(error.message);
+      toast.error('Enter correct old password');
     }
   };
 
@@ -444,16 +422,9 @@ const BookingManagement = () => {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/bookings/get', {
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          },
+        const { data: bookingsData } = await axios.get('http://localhost:8080/api/bookings/get', {
+          headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
         });
-
-        if (!response.ok) throw new Error('Failed to fetch bookings');
-
-        const bookingsData = await response.json();
-        // Filter bookings for the current user
         const userBookings = bookingsData.filter(booking => booking.email === user.email);
         setBookings(userBookings);
         setLoading(false);

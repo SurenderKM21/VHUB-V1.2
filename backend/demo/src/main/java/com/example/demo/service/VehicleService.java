@@ -2,24 +2,23 @@ package com.example.demo.service;
 
 import com.example.demo.model.Service;
 import com.example.demo.repo.ServiceRepository;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
 @org.springframework.stereotype.Service
-public class ServiceService {
+@RequiredArgsConstructor
+public class VehicleService {
 
-    @Autowired
-    private ServiceRepository serviceRepository;
+    private final ServiceRepository serviceRepository;
 
     public List<Service> getAllServices() {
         return serviceRepository.findAll();
     }
 
     public Service getServiceById(Long id) {
-        return serviceRepository.findById(id).orElseThrow(() -> new RuntimeException("Service not found"));
+        return serviceRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Service not found with id: " + id));
     }
 
     public Service createService(Service service) {
@@ -27,12 +26,12 @@ public class ServiceService {
     }
 
     public Service updateService(Long id, Service service) {
-        Service existingService = getServiceById(id);
-        existingService.setTitle(service.getTitle());
-        existingService.setDescription(service.getDescription());
-        existingService.setIcon(service.getIcon());
-        existingService.setCost(service.getCost());
-        return serviceRepository.save(existingService);
+        Service existing = getServiceById(id);
+        existing.setTitle(service.getTitle());
+        existing.setDescription(service.getDescription());
+        existing.setIcon(service.getIcon());
+        existing.setCost(service.getCost());
+        return serviceRepository.save(existing);
     }
 
     public void deleteService(Long id) {

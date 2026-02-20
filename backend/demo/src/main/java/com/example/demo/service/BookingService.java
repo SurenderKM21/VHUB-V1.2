@@ -38,7 +38,7 @@ public class BookingService {
         return bookingRepository.findAll();
     }
 
-    public void createBookings(BookingDTO bookingDTO) {
+    public void createBooking(BookingDTO bookingDTO) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName(); // Assuming email is used for authentication

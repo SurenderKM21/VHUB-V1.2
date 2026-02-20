@@ -1,6 +1,7 @@
 package com.example.demo.config;
 
 import java.util.Arrays;
+import org.springframework.http.HttpMethod;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,7 +30,7 @@ public class SecurityConfig {
         private final LogoutHandler logoutHandler;
 
         private static final String[] PUBLIC_ENDPOINTS = {
-                        "/api/auth/**", // Standard for Login/Register
+                        "/api/auth/**", // Login/Register
                         "/api/web/sites", // Public site data
                         "/api/public/**" // Any other truly public data
         };
@@ -41,8 +42,7 @@ public class SecurityConfig {
                                 .cors(cors -> cors.configurationSource(request -> {
                                         CorsConfiguration cfg = new CorsConfiguration();
                                         // In production, load this from environment variables!
-                                        cfg.setAllowedOrigins(Arrays.asList("https://your-production-domain.com",
-                                                        "http://localhost:5173"));
+                                        cfg.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
                                         cfg.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "PATCH",
                                                         "OPTIONS"));
                                         cfg.setAllowedHeaders(Arrays.asList("*"));
@@ -51,6 +51,14 @@ public class SecurityConfig {
                                 }))
                                 .authorizeHttpRequests(authorize -> authorize
                                                 .requestMatchers(PUBLIC_ENDPOINTS).permitAll()
+                                                // Anyone can read services; only admins can modify them
+                                                .requestMatchers(HttpMethod.GET, "/api/services/**").permitAll()
+                                                .requestMatchers(HttpMethod.POST, "/api/services/**")
+                                                .hasAuthority("ROLE_Admin")
+                                                .requestMatchers(HttpMethod.PUT, "/api/services/**")
+                                                .hasAuthority("ROLE_Admin")
+                                                .requestMatchers(HttpMethod.DELETE, "/api/services/**")
+                                                .hasAuthority("ROLE_Admin")
                                                 .anyRequest().authenticated())
                                 .sessionManagement(session -> session
                                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
