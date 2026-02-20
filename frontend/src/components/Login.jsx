@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Box from '@mui/material/Box';
-import FilledInput from '@mui/material/FilledInput';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import Button from '@mui/material/Button';
-import FormHelperText from '@mui/material/FormHelperText';
-import Typography from '@mui/material/Typography';
-import Link from '@mui/material/Link';
+import {
+  Box, TextField, Button, Typography, Paper, Container,
+  Tabs, Tab, InputAdornment, IconButton
+} from '@mui/material';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEnvelope, faLock, faEye, faEyeSlash, faUserCircle, faShieldAlt } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch } from 'react-redux';
 import { login } from '../features/auth/authSlice';
 import './Login.css';
@@ -21,7 +19,8 @@ const Login = () => {
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [errors, setErrors] = useState({ email: false, password: false });
-  const [activeTab, setActiveTab] = useState('user'); // State for tab selection
+  const [activeTab, setActiveTab] = useState(0); // 0 for User, 1 for Admin
+  const [showPassword, setShowPassword] = useState(false);
 
   const validateEmail = (email) => {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -38,33 +37,29 @@ const Login = () => {
 
     if (!Object.values(newErrors).includes(true)) {
       try {
-        // Single login endpoint for all roles
         const response = await axios.post("http://localhost:8080/api/auth/login", formData);
         const { accessToken, role } = response.data;
 
-        // Save token, role, and email to localStorage
-        localStorage.setItem("token", accessToken);
-        localStorage.setItem("role", role);
-        localStorage.setItem('userEmail', formData.email);
+        // Role-based access control based on active tab
+        if (activeTab === 0 && role === "Admin") {
+          toast.error("Admins must use the Admin Login tab.");
+          return;
+        }
+        if (activeTab === 1 && role !== "Admin") {
+          toast.error("Access denied. Admin privileges required.");
+          return;
+        }
 
-        dispatch(login({ 
-          email: formData.email, 
-          isAdmin: role === "Admin", 
-          token: accessToken, 
-          role: role, 
-          isTech: role === "Technician" 
+        dispatch(login({
+          email: formData.email,
+          token: accessToken,
+          role: role,
         }));
 
-        // Navigate based on the role
-        switch (role) {
-          case "Admin":
-            navigate("/admin-dashboard");
-            break;
-          case "Technician":
-            navigate("/technician");
-            break;
-          default:
-            navigate("/");
+        if (role === "Admin") {
+          navigate("/admin-dashboard");
+        } else {
+          navigate("/");
         }
       } catch (error) {
         toast.error("Invalid credentials");
@@ -79,75 +74,95 @@ const Login = () => {
 
   return (
     <div className='l-body'>
-      <Box className="login-container">
-        {/* Tab Navigation */}
-        <Box className="tab-container">
-          <Button 
-            className={`tab-button ${activeTab === 'user' ? 'active' : ''}`} 
-            onClick={() => setActiveTab('user')}
-          >
-            User Login
-          </Button>
-          <Button 
-            className={`tab-button ${activeTab === 'technician' ? 'active' : ''}`} 
-            onClick={() => setActiveTab('technician')}
-          >
-            Technician
-          </Button>
-          <Button 
-            className={`tab-button ${activeTab === 'admin' ? 'active' : ''}`} 
-            onClick={() => setActiveTab('admin')}
-          >
-            Admin
-          </Button>
-        </Box>
+      <Container maxWidth="sm">
+        <Paper elevation={0} className="login-paper">
+          <Box className="brand-section">
+            <Typography variant="h4" className="brand-name">
+              VHUB<span className="brand-dot">.</span>
+            </Typography>
+            <Typography variant="body2" sx={{ color: '#64748b', mt: 1 }}>
+              {activeTab === 0 ? 'Welcome back! Please enter your details.' : 'Admin secure access portal'}
+            </Typography>
+          </Box>
 
-        {/* Form for Login */}
-        <Box component="form" className="login-form" noValidate autoComplete="off" onSubmit={handleLogin}>
-          <Typography variant="h4" component="h1" gutterBottom className="h">
-            {activeTab === 'user' 
-              ? 'User Login' 
-              : activeTab === 'technician' 
-              ? 'Technician Login' 
-              : 'Admin Login'}
-          </Typography>
-          <FormControl variant="filled" error={errors.email}>
-            <InputLabel htmlFor="component-filled-email">Email</InputLabel>
-            <FilledInput
-              id="component-filled-email"
+          <Box className="tab-container">
+            <Tabs
+              value={activeTab}
+              onChange={(e, val) => setActiveTab(val)}
+              variant="fullWidth"
+              className="login-tabs"
+            >
+              <Tab label="User Login" icon={<FontAwesomeIcon icon={faUserCircle} />} iconPosition="start" />
+              <Tab label="Admin Access" icon={<FontAwesomeIcon icon={faShieldAlt} />} iconPosition="start" />
+            </Tabs>
+          </Box>
+
+          <Box component="form" className="login-form" onSubmit={handleLogin}>
+            <TextField
+              fullWidth
+              variant="outlined"
+              label="Email Address"
               name="email"
               value={formData.email}
               onChange={handleChange}
+              error={errors.email}
+              helperText={errors.email ? 'Valid email is required' : ''}
+              className="input-field"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <FontAwesomeIcon icon={faEnvelope} style={{ color: '#94a3b8' }} />
+                  </InputAdornment>
+                ),
+              }}
             />
-            {errors.email && <FormHelperText>Valid email is required</FormHelperText>}
-          </FormControl>
-          <FormControl variant="filled" error={errors.password}>
-            <InputLabel htmlFor="component-filled-password">Password</InputLabel>
-            <FilledInput
-              id="component-filled-password"
+
+            <TextField
+              fullWidth
+              variant="outlined"
+              label="Password"
               name="password"
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               value={formData.password}
               onChange={handleChange}
+              error={errors.password}
+              helperText={errors.password ? 'Password is required' : ''}
+              className="input-field"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <FontAwesomeIcon icon={faLock} style={{ color: '#94a3b8' }} />
+                  </InputAdornment>
+                ),
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
+                      <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} style={{ fontSize: '0.9rem' }} />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
             />
-            {errors.password && <FormHelperText>Password is required</FormHelperText>}
-          </FormControl>
-          <Button type="submit" variant="contained" color="primary" className="submit-button">
-            {activeTab === 'user' 
-              ? 'Login' 
-              : activeTab === 'technician' 
-              ? 'Technician Login' 
-              : 'Admin Login'}
-          </Button>
-          <br />
-          {activeTab === 'user' && (
-            <Typography variant="body2" className="signup-text">
-              Don't have an account? <Link href="/register">Sign Up</Link>
-            </Typography>
-          )}
-        </Box>
-      </Box>
-      <ToastContainer />
+
+            <Button
+              type="submit"
+              variant="contained"
+              fullWidth
+              className="submit-button"
+              color="primary"
+            >
+              {activeTab === 0 ? 'Sign In' : 'Secure Login'}
+            </Button>
+
+            {activeTab === 0 && (
+              <Box className="signup-link">
+                Don't have an account? <a href="/register">Create an account</a>
+              </Box>
+            )}
+          </Box>
+        </Paper>
+      </Container>
+      <ToastContainer position="bottom-right" />
     </div>
   );
 };

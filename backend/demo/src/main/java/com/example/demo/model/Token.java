@@ -28,7 +28,7 @@ public class Token {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @Column(unique = true)
+    @Column(unique = true, columnDefinition = "VARCHAR(2000)")
     private String token;
 
     @Builder.Default

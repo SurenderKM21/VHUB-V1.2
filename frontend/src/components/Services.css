@@ -1,9 +1,10 @@
-html, body {
+html,
+body {
   margin: 0;
   height: 100%;
 }
+
 .service-container {
-  margin-top: 50px;
   padding: 20px;
 }
 
@@ -34,20 +35,30 @@ html, body {
 
 
 .s-body {
-  min-height: 100vh; /* Ensures that the section covers at least the full viewport height */
+  min-height: 100vh;
+  /* Ensures that the section covers at least the full viewport height */
   background-image: url('https://i.pinimg.com/originals/77/9a/a1/779aa1794e58f78587fb2d0a5c001.jpg');
-  background-size: cover; /* Ensure the image covers the entire container */
-  background-position: center; /* Center the image */
-  background-repeat: no-repeat; /* Prevent the image from repeating */
+  background-size: cover;
+  /* Ensure the image covers the entire container */
+  background-position: center;
+  /* Center the image */
+  background-repeat: no-repeat;
+  /* Prevent the image from repeating */
   /* Apply a semi-transparent gradient */
-  background: linear-gradient(
-    rgb(210, 129, 129), /* Start color with opacity */
-    rgba(237, 237, 237, 0.589) /* End color with opacity */
-  ), url('https://www.pixel4k.com/wp-content/uploads/2020/08/novitec-mclaren-720s-front_1596908085.jpg.webp'); /* Background image */
-  background-size: cover; /* Ensure the image covers the entire container */
-  background-position: center; /* Center the image */
-  background-repeat: no-repeat; /* Prevent the image from repeating */
+  background: linear-gradient(rgb(210, 129, 129),
+      /* Start color with opacity */
+      rgba(237, 237, 237, 0.589)
+      /* End color with opacity */
+    ), url('https://www.pixel4k.com/wp-content/uploads/2020/08/novitec-mclaren-720s-front_1596908085.jpg.webp');
+  /* Background image */
+  background-size: cover;
+  /* Ensure the image covers the entire container */
+  background-position: center;
+  /* Center the image */
+  background-repeat: no-repeat;
+  /* Prevent the image from repeating */
 }
+
 .add-service-button {
   margin-bottom: 20px;
   display: block;
@@ -56,7 +67,8 @@ html, body {
   margin-right: auto;
 }
 
-.edit-button, .delete-button {
+.edit-button,
+.delete-button {
   margin-top: 10px;
 }
 
@@ -66,4 +78,27 @@ html, body {
 
 .delete-button {
   color: #f44336;
+}
+
+/* Admin view specific styles */
+.service-container-admin {
+  padding: 0;
+  /* Remove padding to prevent extra spacing */
+  background: transparent;
+  /* No background for admin view */
+  margin-top: 0;
+  /* Remove top margin */
+  overflow: visible !important;
+  /* Prevent separate scroll */
+  max-height: none !important;
+  /* No height constraint */
+  height: auto !important;
+  /* Auto height */
+}
+
+.service-title-admin {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+  /* Dark color for admin view */
 }

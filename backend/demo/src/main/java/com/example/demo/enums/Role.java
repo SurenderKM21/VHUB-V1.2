@@ -1,4 +1,5 @@
 package com.example.demo.enums;
+
 import java.util.List;
 import java.util.Set;
 import lombok.Getter;
@@ -17,16 +18,7 @@ public enum Role {
                         Access.USER_POST,
                         Access.USER_PUT,
                         Access.USER_DELETE)),
-        Technician(Set.of(
-                                Access.TECH_GET,
-                                Access.TECH_POST,
-                                Access.TECH_PUT,
-                                Access.TECH_DELETE,
-                                Access.USER_GET
-                                ,Access.BOOK_GET,
-                                Access.BOOK_DELETE,
-                                Access.BOOK_PUT
-                                )),
+
         User(Set.of(
                         Access.USER_GET,
                         Access.USER_POST,

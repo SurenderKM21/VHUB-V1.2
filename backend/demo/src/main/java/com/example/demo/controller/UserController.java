@@ -24,10 +24,12 @@ public class UserController {
     public User getProfile(@PathVariable Long userId) {
         return userService.getUserById(userId);
     }
+
     @PatchMapping("/{userId}")
     public User patchUser(@PathVariable Long userId, @RequestBody Map<String, Object> updates) {
         return userService.partialUpdateUser(userId, updates);
     }
+
     @GetMapping("/email/{email}")
     public User getProfileByEmail(@PathVariable String email) {
         return userService.getUserByEmail(email);
@@ -40,11 +42,17 @@ public class UserController {
 
     @DeleteMapping("/{userId}")
     public void deleteProfile(@PathVariable Long userId) {
-        userService.deleteUser(userId);  // No password needed
+        userService.deleteUser(userId); // No password needed
     }
 
     @DeleteMapping("/email/{email}")
     public void deleteProfileByEmail(@PathVariable String email) {
-        userService.deleteUserByEmail(email);  // No password needed
+        userService.deleteUserByEmail(email); // No password needed
+    }
+
+    @PostMapping("/{userId}/change-password")
+    public void changePassword(@PathVariable Long userId,
+            @RequestBody com.example.demo.dto.request.PasswordChangeRequest request) {
+        userService.changePassword(userId, request);
     }
 }

@@ -27,7 +27,7 @@ public class UserService {
         }
 
         User user = userOptional.get();
-        
+
         // Apply the updates from the map
         updates.forEach((key, value) -> {
             switch (key) {
@@ -49,6 +49,7 @@ public class UserService {
 
         return userRepository.save(user);
     }
+
     // Get user by ID
     public User getUserById(Long userId) {
         return userRepository.findById(userId)
@@ -71,6 +72,21 @@ public class UserService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found with email " + email));
         userRepository.delete(user);
+    }
+
+    @Autowired
+    private org.springframework.security.crypto.password.PasswordEncoder passwordEncoder;
+
+    public void changePassword(Long userId, com.example.demo.dto.request.PasswordChangeRequest request) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (!passwordEncoder.matches(request.getOldPassword(), user.getPassword())) {
+            throw new RuntimeException("Incorrect old password");
+        }
+
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        userRepository.save(user);
     }
 
     // Update user

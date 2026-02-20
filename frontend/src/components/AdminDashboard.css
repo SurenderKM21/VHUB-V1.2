@@ -1,181 +1,314 @@
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-/* Overall dashboard styling */
+:root {
+  --header-height: 54px;
+  --primary-color: #dc2626;
+  --primary-hover: #b91c1c;
+  --sidebar-bg: #0f172a;
+  --sidebar-hover: #1e293b;
+  --sidebar-active: #1e293b;
+  --bg-color: #f8fafc;
+  --card-bg: #ffffff;
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  --border-color: #e2e8f0;
+  --sidebar-width: 260px;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 .admin-dashboard {
   display: flex;
-  height: 100vh; /* Full height of the viewport */
-  font-family: 'Raleway', sans-serif; /* Apply Raleway font */
-}
-.dashboard-overview .progress-container {
-  display: flex;
-  justify-content: space-between; /* Creates space between items */
-  gap: 20px; /* Controls the space between the cards */
-}
-.tech-form {
-  margin-bottom: 20px;
+  min-height: calc(100vh - var(--header-height));
+  background-color: var(--bg-color);
+  font-family: 'Inter', sans-serif;
+  color: var(--text-main);
 }
 
-.service-table th,
-.service-table td {
-  padding: 8px;
-  text-align: left;
-}
-
-.service-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.service-table th {
-  background-color: #f4f4f4;
-}
-
-.progress-item {
-  flex: 1; /* Ensures all items take up equal width */
-  max-width: 500px; /* Ensures cards don't exceed a certain width */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-
-/* Side panel styling */
+/* Sidebar Styling */
 .admin-side-panel {
-  width: 250px;
-  background-color: #2d3941; /* Updated background color */
-  color: white; /* Ensure text is visible on dark background */
-  padding: 15px;
-  height: 100%; /* Full height of the container */
-  position: fixed; /* Keep it fixed on the left side */
-  top: 0;
+  width: var(--sidebar-width);
+  background-color: var(--sidebar-bg);
+  color: #f8fafc;
+  padding: 1.5rem 1rem;
+  height: calc(100vh - var(--header-height));
+  position: fixed;
+  top: var(--header-height);
   left: 0;
   display: flex;
-  flex-direction: column; /* Arrange items in a column */
+  flex-direction: column;
+  box-shadow: 4px 0 12px rgba(0, 0, 0, 0.1);
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  z-index: 100;
+  transition: var(--transition);
 }
 
 .admin-side-panel h2 {
-  font-size: 1.5em;
-  margin-bottom: 15px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  padding: 0 0.75rem;
+  margin-bottom: 2rem;
+  color: var(--primary-color);
+  letter-spacing: -0.025em;
+  text-transform: uppercase;
 }
 
 .admin-side-panel ul {
   list-style: none;
   padding: 0;
   margin: 0;
-  flex-grow: 1; /* Allow the list to grow and take available space */
 }
 
 .admin-side-panel ul li {
-  padding: 10px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
   cursor: pointer;
-  border-radius: 4px; /* Rounded corners to list items */
+  border-radius: 0.5rem;
   display: flex;
-  align-items: center; /* Center icons and text vertically */
-  margin-bottom: 10px; /* Space between list items */
-  transition: background-color 0.3s ease; /* Smooth hover effect */
+  align-items: center;
+  font-weight: 500;
+  font-size: 0.9375rem;
+  color: #94a3b8;
+  transition: var(--transition);
+  position: relative;
 }
 
 .admin-side-panel ul li:hover {
-  background-color: #0056b3; /* Darker blue on hover */
+  background-color: var(--sidebar-hover);
+  color: #fff;
+}
+
+.admin-side-panel ul li.active {
+  background-color: var(--sidebar-active);
+  color: #fff;
+  font-weight: 600;
+}
+
+.admin-side-panel ul li.active::before {
+  content: '';
+  position: absolute;
+  left: -1rem;
+  top: 0.75rem;
+  bottom: 0.75rem;
+  width: 4px;
+  background-color: var(--primary-color);
+  border-radius: 0 4px 4px 0;
 }
 
 .admin-side-panel ul li .icon {
-  margin-right: 15px; /* Adjust space between icon and text */
-  font-size: 1.2em; /* Ensure icon size is appropriate */
+  margin-right: 1rem;
+  font-size: 1.1rem;
+  opacity: 0.8;
 }
 
-/* Content area styling */
+/* Content Area */
 .admin-content {
   flex-grow: 1;
-  margin-left: 270px; /* Offset by the width of the side panel and some extra space */
-  padding: 20px;
-  overflow-x: auto; /* Allow horizontal scrolling if needed */
+  margin-left: calc(var(--sidebar-width) + 5rem);
+  padding: 3rem 4rem;
+  /* Balanced padding */
+  min-height: 100vh;
+  box-sizing: border-box;
 }
 
 .admin-content h3 {
-  border-bottom: 2px solid #ddd;
-  padding-bottom: 10px;
-  margin-bottom: 20px; /* Add space below the heading */
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 2.5rem;
+  display: flex;
+  align-items: center;
 }
 
-/* Styling for booking table */
-.booking-table {
+.profile-section-header {
+  margin-bottom: 2rem;
+}
+
+.profile-avatar-initials {
+  width: 80px;
+  height: 80px;
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 auto 1.5rem;
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
+}
+
+.dashboard-overview .progress-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.progress-item {
   width: 100%;
-  border-collapse: collapse;
-  margin: 20px 0; /* Add space above and below the table */
+}
+
+.progress-item .MuiCard-root {
+  border-radius: 1rem !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1) !important;
+  transition: var(--transition);
+  border: 1px solid var(--border-color);
+}
+
+.progress-item .MuiCard-root:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Table Styling */
+.booking-table,
+.service-table,
+.feedback-table {
+  width: 100%;
+  background: var(--card-bg);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  border-collapse: separate;
+  border-spacing: 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin: 1.5rem 0;
 }
 
 .booking-table th,
-.booking-table td {
-  border: 1px solid #ddd;
-  padding: 12px;
-  text-align: left;
-  font-size: 0.9em; /* Adjust font size for better fit */
-}
-
-.booking-table th {
-  background-color: #f4f4f4;
-  color: #333;
-  font-weight: 600;
-}
-
-.booking-table tbody tr:nth-child(even) {
-  background-color: #f9f9f9; /* Zebra stripes for better readability */
-}
-
-.booking-table tbody tr:hover {
-  background-color: #f1f1f1; /* Highlight row on hover */
-}
-
-/* Styling for service table */
-.service-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 20px 0; /* Add space above and below the table */
-}
-
 .service-table th,
-.service-table td {
-  border: 1px solid #ddd;
-  padding: 12px;
-  text-align: left;
-  font-size: 0.9em; /* Adjust font size for better fit */
-}
-
-.service-table th {
-  background-color: #f4f4f4;
-  color: #333;
-  font-weight: 600;
-}
-
-.service-table tbody tr:nth-child(even) {
-  background-color: #f9f9f9; /* Zebra stripes for better readability */
-}
-
-.service-table tbody tr:hover {
-  background-color: #f1f1f1; /* Highlight row on hover */
-}
-
-.service-icon {
-  width: 50px; /* Adjust to fit within table cell */
-  height: auto; /* Maintain aspect ratio */
-}
-.feedback-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.feedback-table th, .feedback-table td {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: left;
-}
-
 .feedback-table th {
-  background-color: #f4f4f4;
+  background-color: #f1f5f9;
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 1rem 1.5rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
 }
 
-.feedback-table tr:nth-child(even) {
-  background-color: #f9f9f9;
+.booking-table td,
+.service-table td,
+.feedback-table td {
+  padding: 1rem 1.5rem;
+  font-size: 0.875rem;
+  color: var(--text-main);
+  border-bottom: 1px solid var(--border-color);
+  transition: var(--transition);
 }
 
+.booking-table tbody tr:last-child td,
+.service-table tbody tr:last-child td,
+.feedback-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.booking-table tbody tr:hover,
+.service-table tbody tr:hover,
+.feedback-table tbody tr:hover {
+  background-color: #f8fafc;
+}
+
+/* MUI Component Overrides for Professionalism */
+.MuiButton-containedPrimary {
+  background-color: var(--primary-color) !important;
+  border-radius: 0.5rem !important;
+  text-transform: none !important;
+  font-weight: 600 !important;
+  box-shadow: none !important;
+}
+
+.MuiButton-containedPrimary:hover {
+  background-color: var(--primary-hover) !important;
+}
+
+.MuiTypography-h5 {
+  font-weight: 600 !important;
+  color: var(--text-main) !important;
+}
+
+.MuiTypography-body2 {
+  color: var(--text-muted) !important;
+}
+
+/* New Utility Classes */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 9999px;
+  background-color: #f1f5f9;
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+
+/* Profile / User Management Styling */
+.admin-user-management {
+  width: 100%;
+}
+
+.user-card {
+  background: var(--card-bg);
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  margin-top: 1.5rem;
+}
+
+.user-card-content {
+  padding: 2rem;
+}
+
+.user-card-content h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.user-card-content h4::after {
+  content: '';
+  flex-grow: 1;
+  height: 1px;
+  background-color: var(--border-color);
+}
+
+.profile-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.profile-full-width {
+  grid-column: span 2;
+}
+
+.logout-item {
+  color: #fca5a5 !important;
+  margin-top: 1rem !important;
+}
+
+.logout-item:hover {
+  background-color: #7f1d1d !important;
+  color: #fff !important;
+}

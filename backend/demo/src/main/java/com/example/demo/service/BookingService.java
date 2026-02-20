@@ -1,25 +1,6 @@
- package com.example.demo.service;
-
-
+package com.example.demo.service;
 
 import java.util.List;
-
-// import com.example.demo.model.Booking;
-// import com.example.demo.repo.BookingRepository;
-
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.stereotype.Service;
-
-// @Service
-// public class BookingService {
-    
-//     @Autowired
-//     private BookingRepository bookingRepository;
-
-//     public Booking saveBooking(Booking booking) {
-//         return bookingRepository.save(booking);
-//     }
-// }
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -44,31 +25,35 @@ public class BookingService {
     public Booking createBooking(Booking booking) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName(); // Assuming email is used for authentication
-        
+
         User user = userRepository.findByEmail(email)
-            .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
         booking.setUser(user); // Set the user
 
         return bookingRepository.save(booking);
     }
-    
-    public List<Booking> getAllBookings()
-    {
-       return bookingRepository.findAll();
+
+    public List<Booking> getAllBookings() {
+        return bookingRepository.findAll();
     }
 
     public void createBookings(BookingDTO bookingDTO) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName(); // Assuming email is used for authentication
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
         Booking booking = new Booking();
-        booking.setName(bookingDTO.getName());
-        booking.setPhone(bookingDTO.getPhone());
+        // Name, Phone, Email are now derived from the User entity directly
+
         booking.setVehicleNumber(bookingDTO.getVehicleNumber());
         booking.setService(bookingDTO.getService());
         booking.setDate(bookingDTO.getDate());
         booking.setTime(bookingDTO.getTime());
         booking.setProblemDescription(bookingDTO.getProblemDescription());
-        booking.setEmail(bookingDTO.getEmail());
-        User user = userRepository.findByEmail(bookingDTO.getEmail()).orElseThrow(() -> new RuntimeException("User not found"));
 
         booking.setUser(user);
 

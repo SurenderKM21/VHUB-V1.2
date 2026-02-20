@@ -1,9 +1,11 @@
 .p-body {
-  background-image: url("/images/bg8.jpg");
+  /* background-image: url("/images/bg8.jpg");S */
   background-repeat: no-repeat;
   background-size: cover;
-  min-height: 100vh; /* Changed from height to min-height */
-  padding-top: 150px; /* Adjust this value to move the profile information lower */
+  min-height: 100vh;
+  /* Changed from height to min-height */
+  padding-top: 80px;
+  /* Adjust this value to move the profile information lower */
 }
 
 .profile-container {
@@ -16,6 +18,24 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19);
 }
 
+
 .delete-container {
   margin-top: 40px;
+}
+
+
+/* Fix for blue background overlap */
+.p-body .user-management {
+  background-color: transparent !important;
+  min-height: auto;
+  padding: 0;
+}
+
+/* Remove card background as requested */
+.p-body .user-card {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  /* Optional: remove shadow if background is gone to avoid floating shadow */
+  border: none !important;
+  /* Optional: remove border if desired */
 }

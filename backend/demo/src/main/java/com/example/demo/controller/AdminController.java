@@ -15,16 +15,15 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AdminController {
 
-
     private final AuthService authService;
 
-        @PostMapping("/add")
-        public ResponseEntity<?> createAdmin() {
-            try {
-                return new ResponseEntity<>(authService.createAdmin(), HttpStatus.CREATED);
-            } catch (Exception e) {
-                return ResponseEntity.notFound().build();
-            }
+    @PostMapping("/default")
+    public ResponseEntity<?> createAdmin() {
+        try {
+            return new ResponseEntity<>(authService.createAdmin(), HttpStatus.CREATED);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
         }
-    
+    }
+
 }

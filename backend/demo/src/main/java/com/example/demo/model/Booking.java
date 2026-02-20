@@ -1,51 +1,24 @@
 package com.example.demo.model;
 
-
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "bookings")
 public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String name;
-
-    @Column(nullable = false)
-    private String email;
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    @Column(nullable = false)
-    private String phone;
-
-    @Column(nullable = false)
-    private String vehicleNumber;
-
-    @Column(nullable = false)
-    private String service;
-
-    @Column(nullable = false)
-    private String problemDescription;
-
-    @Column(nullable = false)
-    private String date;
-
-    @Column(nullable = false)
-    private String time;
-
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user; // Added
 
+    private String vehicleNumber;
+    private String service;
+    private String problemDescription;
+    private String date;
+    private String time;
 
-   
     public Long getId() {
         return id;
     }
@@ -55,19 +28,15 @@ public class Booking {
     }
 
     public String getName() {
-        return name;
+        return user != null ? user.getName() : null;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getEmail() {
+        return user != null ? user.getEmail() : null;
     }
 
     public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
+        return user != null ? user.getPhone() : null;
     }
 
     public String getVehicleNumber() {
@@ -110,18 +79,6 @@ public class Booking {
         this.time = time;
     }
 
-    // public Booking() {}
-
-    // public Booking(String name, String phone, String vehicleNumber, String service, 
-    //                String problemDescription, String date, String time) {
-    //     this.name = name;
-    //     this.phone = phone;
-    //     this.vehicleNumber = vehicleNumber;
-    //     this.service = service;
-    //     this.problemDescription = problemDescription;
-    //     this.date = date;
-    //     this.time = time;
-    // }
     public User getUser() {
         return user;
     }
@@ -130,17 +87,16 @@ public class Booking {
         this.user = user;
     }
 
-    public Booking() {}
+    public Booking() {
+    }
 
-    public Booking(String name, String phone, String vehicleNumber, String service, 
-                   String problemDescription, String date, String time, User user) {
-        this.name = name;
-        this.phone = phone;
+    public Booking(String vehicleNumber, String service,
+            String problemDescription, String date, String time, User user) {
         this.vehicleNumber = vehicleNumber;
         this.service = service;
         this.problemDescription = problemDescription;
         this.date = date;
         this.time = time;
-        this.user = user; // Added
+        this.user = user;
     }
 }

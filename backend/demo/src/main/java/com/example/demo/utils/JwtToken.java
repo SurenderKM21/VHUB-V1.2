@@ -16,11 +16,10 @@ import io.jsonwebtoken.security.Keys;
 
 @Service
 public class JwtToken {
-    // use H256 based key 
+    // use H256 based key
     private String EKey = "EbeEsh7VhXpHMAkLz7Xb3TYm7a4KLMlYn0Kr1NJEhTIOeU9HJsv3t2bMa5OjoiaD";
-    // 7 Days
-    // private int Duration = 604800000;
-    private int Duration = 60 * 60 * 60 * 24 * 7;
+    // 7 Days in milliseconds
+    private long Duration = 1000L * 60 * 60 * 24 * 7;
 
     public String extractUsername(String token) {
         return extraClaim(token, Claims::getSubject);

@@ -10,8 +10,8 @@ const API_URL = 'http://localhost:8080/api/services';
 
 // Map icon names to actual icons
 const iconMapping = {
-  'FaCar':<FaCar/>,
-  'FaTaxi':<FaTaxi/>,'FaPaints':<FaPaintBrush/>,
+  'FaCar': <FaCar />,
+  'FaTaxi': <FaTaxi />, 'FaPaints': <FaPaintBrush />,
   'FaOilCan': <FaOilCan />,
   'FaCarCrash': <FaCarCrash />,
   'FaCog': <FaCog />,
@@ -24,7 +24,7 @@ const iconMapping = {
   'FaTools': <FaTools />,
 };
 
-const Services = () => {
+const Services = ({ isAdminView = false }) => {
   const navigate = useNavigate();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const isAdmin = useSelector((state) => state.auth.isAdmin);
@@ -76,9 +76,9 @@ const Services = () => {
     setServices(storedServices);
   }, []);
 
-  const handleBookNow = () => {
+  const handleBookNow = (serviceTitle) => {
     if (isAuthenticated) {
-      navigate('/book');
+      navigate('/book', { state: { selectedService: serviceTitle } });
     } else {
       navigate('/login');
     }
@@ -178,10 +178,12 @@ const Services = () => {
     setOpen(false);
   };
 
-  return (
-    <div className='s-body'>
-      <Box className="service-container">
-        <Typography variant="h3" component="h1" gutterBottom className="service-title">
+  const content = (
+    <>
+      <Box
+        className={isAdminView ? "service-container-admin" : "service-container"}
+      >
+        <Typography variant="h3" component="h1" gutterBottom className={isAdminView ? "service-title-admin" : "service-title"}>
           Our Services
         </Typography>
         {isAdmin && (
@@ -225,7 +227,7 @@ const Services = () => {
                       variant="contained"
                       color="primary"
                       className="book-now-button"
-                      onClick={handleBookNow}
+                      onClick={() => handleBookNow(service.title)}
                     >
                       Book Now
                     </Button>
@@ -301,8 +303,10 @@ const Services = () => {
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </>
   );
+
+  return isAdminView ? content : <div className='s-body'>{content}</div>;
 };
 
 export default Services;

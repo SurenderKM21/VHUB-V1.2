@@ -100,6 +100,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import Header from './components/Header';
 import Home from './components/Home';
 import Login from './components/Login';
@@ -110,9 +111,23 @@ import About from './components/About';
 import Services from './components/Services';
 import Book from './components/Book';
 import Profile from './components/Profile';
-import Feedback from './components/Feedback';
-import TechDashboard from './components/TechDashboard';
+
 import UserDashboard from './components/UserDashboard';
+
+const ConditionalFooter = () => {
+  const location = useLocation();
+  const isAdmin = useSelector((state) => state.auth.isAdmin);
+
+  // Hide footer on dashboard routes
+  const isDashboardPage = location.pathname.startsWith('/admin-dashboard') ||
+    location.pathname.startsWith('/userdashboard');
+
+  if (isDashboardPage || isAdmin) {
+    return null;
+  }
+
+  return <Footer />;
+};
 
 function App() {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
@@ -138,21 +153,18 @@ function App() {
             element={isAdmin ? <AdminDashboard /> : <Navigate to="/login" />}
           />
           <Route path="/about" element={<About />} />
-          
-          <Route path="/service" element={<Services />} /> 
+
+          <Route path="/service" element={<Services />} />
           <Route
             path="/profile"
             element={isAuthenticated ? <Profile /> : <Navigate to="/login" />}
           />
-          <Route path="/technician" element={isAuthenticated ? <TechDashboard />:<Navigate to="/login" />} />
-          <Route path="/userdashboard" element={<UserDashboard/>}/>
+
+          <Route path="/userdashboard" element={<UserDashboard />} />
           <Route path="/book" element={isAuthenticated ? <Book /> : <Navigate to="/login" />} />
-        <Route path="/feedback" element={<Feedback/>} />
-        
-        
         </Routes>
-        
-  {!isAdmin && <Footer />}
+
+        <ConditionalFooter />
       </BrowserRouter>
     </div>
   );

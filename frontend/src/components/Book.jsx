@@ -84,7 +84,7 @@
 //           draggable: true,
 //           progress: undefined,
 //         });
-        
+
 //         // Delay the navigation to give time for the toast to appear
 //         setTimeout(() => {
 //           navigate('/');
@@ -101,9 +101,9 @@
 //       navigate('/login');
 //     }
 //   };
-  
+
 //   const todayDate = new Date().toISOString().split('T')[0];
-  
+
 //   return (
 //     <div className='b-body'>
 //       <ToastContainer />
@@ -196,28 +196,14 @@
 
 
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { TextField, Button, Typography, MenuItem } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router-dom';
-import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './Book.css';
-
-const services = [
-  'Oil Change',
-  'Brake Repair',
-  'Tire Replacement',
-  'Battery Replacement',
-  'Engine Diagnostics',
-  'Transmission Repair',
-  'Air Conditioning Service',
-  'Suspension Repair',
-  'Detailing',
-  'Battery Testing',
-  'General Maintenance',
-];
+import { axiosInstance } from './api';
 
 const Book = () => {
   const location = useLocation();
@@ -227,16 +213,34 @@ const Book = () => {
   const token = useSelector((state) => state.auth.token);
   const navigate = useNavigate();
 
+  const [services, setServices] = useState([]);
   const [formData, setFormData] = useState({
-    name: '',
-    phone: '',
     vehicleNumber: '',
     service: selectedService,
     date: '',
     time: '',
     problemDescription: '',
-    email: '',
   });
+
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const response = await axiosInstance.get('/api/services');
+        setServices(response.data);
+      } catch (error) {
+        console.error('Error fetching services:', error);
+        toast.error('Failed to load services list');
+      }
+    };
+    fetchServices();
+  }, []);
+
+  // Update formData.service if selectedService from navigation changes or services list loads
+  useEffect(() => {
+    if (selectedService) {
+      setFormData(prev => ({ ...prev, service: selectedService }));
+    }
+  }, [selectedService]);
 
   const handleChange = (e) => {
     setFormData({
@@ -272,34 +276,24 @@ const Book = () => {
 
     if (isAuthenticated) {
       try {
-        const response = await axios.post('http://localhost:8080/api/bookings/new', formData, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        });
+        const response = await axiosInstance.post('/api/bookings/new', formData);
 
         // Show a success toast message
-        toast.success(
-          <div>
-            <strong>Booking Confirmed!</strong>
-            <p>Thank you, {formData.name}! Your service has been scheduled.</p>
-          </div>, 
-          {
-            position: 'top-right',
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-          }
-        );
+        toast.success("Booking confirmed - we will contact you shortly", {
+          position: 'top-right',
+          autoClose: 7000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
 
-        // Delay the navigation to give time for the toast to appear
+        // Delay the navigation to give time for the toast to fulfill its progress bar
         setTimeout(() => {
-          navigate('/');
-        }, 1000);
-        
+          localStorage.setItem('user_active_section', 'bookings');
+          navigate('/userdashboard');
+        }, 7000);
+
         console.log('Booking response:', response.data);
       } catch (error) {
         console.error('Error:', error.response ? error.response.data : error.message);
@@ -324,22 +318,6 @@ const Book = () => {
         </Typography>
         <form className="booking-form" onSubmit={handleSubmit}>
           <TextField
-            label="Name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-            fullWidth
-          />
-          <TextField
-            label="Phone"
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-            required
-            fullWidth
-          />
-          <TextField
             label="Vehicle Number"
             name="vehicleNumber"
             value={formData.vehicleNumber}
@@ -356,9 +334,9 @@ const Book = () => {
             required
             fullWidth
           >
-            {services.map((service, index) => (
-              <MenuItem key={index} value={service}>
-                {service}
+            {services.map((service) => (
+              <MenuItem key={service.id || service.title} value={service.title}>
+                {service.title}
               </MenuItem>
             ))}
           </TextField>
@@ -382,6 +360,7 @@ const Book = () => {
             required
             InputLabelProps={{ shrink: true }}
             fullWidth
+            helperText="Working hours: 9 AM - 4 PM"
           />
           <TextField
             label="Describe Your Problem"
@@ -392,14 +371,6 @@ const Book = () => {
             rows={4}
             fullWidth
             required
-          />
-          <TextField
-            label="Email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-            fullWidth
           />
           <Button variant="contained" color="primary" type="submit">
             Book Now
