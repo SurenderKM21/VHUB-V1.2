@@ -21,7 +21,7 @@ public class ServiceController {
     }
 
     @GetMapping("/{id}")
-    public Service getServiceById(@PathVariable Long id) {
+    public Service getServiceById(@PathVariable("id") Long id) {
         return vehicleService.getServiceById(id);
     }
 
@@ -33,13 +33,13 @@ public class ServiceController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('ROLE_Admin')")
-    public Service updateService(@PathVariable Long id, @RequestBody Service service) {
+    public Service updateService(@PathVariable("id") Long id, @RequestBody Service service) {
         return vehicleService.updateService(id, service);
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('ROLE_Admin')")
-    public void deleteService(@PathVariable Long id) {
+    public void deleteService(@PathVariable("id") Long id) {
         vehicleService.deleteService(id);
     }
 }

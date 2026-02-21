@@ -22,17 +22,17 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    public User getProfile(@PathVariable Long userId) {
+    public User getProfile(@PathVariable("userId") Long userId) {
         return userService.getUserById(userId);
     }
 
     @GetMapping("/email/{email:.+}")
-    public User getProfileByEmail(@PathVariable String email) {
+    public User getProfileByEmail(@PathVariable("email") String email) {
         return userService.getUserByEmail(email);
     }
 
     @PatchMapping("/{userId}")
-    public User patchUser(@PathVariable Long userId, @RequestBody Map<String, Object> updates) {
+    public User patchUser(@PathVariable("userId") Long userId, @RequestBody Map<String, Object> updates) {
         return userService.partialUpdateUser(userId, updates);
     }
 
@@ -42,17 +42,17 @@ public class UserController {
     }
 
     @DeleteMapping("/{userId}")
-    public void deleteProfile(@PathVariable Long userId) {
+    public void deleteProfile(@PathVariable("userId") Long userId) {
         userService.deleteUser(userId);
     }
 
     @DeleteMapping("/email/{email:.+}")
-    public void deleteProfileByEmail(@PathVariable String email) {
+    public void deleteProfileByEmail(@PathVariable("email") String email) {
         userService.deleteUserByEmail(email);
     }
 
     @PostMapping("/{userId}/change-password")
-    public void changePassword(@PathVariable Long userId, @RequestBody PasswordChangeRequest request) {
+    public void changePassword(@PathVariable("userId") Long userId, @RequestBody PasswordChangeRequest request) {
         userService.changePassword(userId, request);
     }
 }

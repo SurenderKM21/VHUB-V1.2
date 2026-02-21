@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.demo.model.Token;
 
-
 public interface JwtRepo extends JpaRepository<Token, String> {
     List<Token> findAllByUser_UidAndExpiredFalseAndRevokedFalse(Long uid);
 

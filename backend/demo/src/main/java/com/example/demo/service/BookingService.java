@@ -10,17 +10,14 @@ import com.example.demo.model.Booking;
 import com.example.demo.model.User;
 import com.example.demo.repo.BookingRepository;
 import com.example.demo.repo.UserRepo;
+import lombok.AllArgsConstructor;
 
+@AllArgsConstructor
 @Service
 public class BookingService {
 
     private final BookingRepository bookingRepository;
     private final UserRepo userRepository;
-
-    public BookingService(BookingRepository bookingRepository, UserRepo userRepository) {
-        this.bookingRepository = bookingRepository;
-        this.userRepository = userRepository;
-    }
 
     public Booking createBooking(Booking booking) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
