@@ -46,7 +46,7 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user")
     @JsonBackReference
-    private List<Booking> bookings; // Added
+    private List<Booking> bookings;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

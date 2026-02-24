@@ -8,4 +8,6 @@ public interface AuthService {
     String register(RegisterRequest registerRequest);
 
     LoginResponse login(LoginRequest loginRequest);
+
+    LoginResponse refreshToken(String refreshToken);
 }

@@ -5,7 +5,6 @@ import java.io.IOException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.example.demo.repo.JwtRepo;
 import com.example.demo.utils.JwtToken;
 
 import jakarta.servlet.FilterChain;
@@ -26,7 +25,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtToken jwtTokenUtil;
     private final UserDetailsService userDetailsService;
-    private final JwtRepo jwtRepo;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -48,21 +46,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
 
-                // Check if the token is valid
-                var isTokenValid = jwtRepo.findByToken(token)
-                        .map(t -> !t.isExpired() && !t.isRevoked())
-                        .orElse(false);
-
-                if (jwtTokenUtil.isTokenValid(token, userDetails) && isTokenValid) {
+                if (jwtTokenUtil.isTokenValid(token, userDetails)) {
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                             userDetails, null, userDetails.getAuthorities());
                     authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authToken);
                     System.out.println("Auth OK: " + username + " | authorities=" + userDetails.getAuthorities());
                 } else {
-                    System.err.println("JWT rejected for user: " + username +
-                            " | jwtValid=" + jwtTokenUtil.isTokenValid(token, userDetails) +
-                            " | dbValid=" + isTokenValid);
+                    System.err.println("JWT rejected for user: " + username);
                 }
             }
         } catch (Exception e) {

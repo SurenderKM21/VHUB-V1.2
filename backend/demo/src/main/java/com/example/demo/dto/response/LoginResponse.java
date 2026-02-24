@@ -10,5 +10,7 @@ import lombok.Data;
 public class LoginResponse {
     @Builder.Default
     private String accessToken = "";
+    @Builder.Default
+    private String refreshToken = "";
     private String role;
 }

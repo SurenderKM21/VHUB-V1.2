@@ -58,20 +58,50 @@ public class AuthServiceImpl implements AuthService {
         User user = userRepository.findByEmail(loginRequest.getEmail()).orElseThrow();
         Map<String, Object> extraClaims = new HashMap<>();
         extraClaims.put("role", user.getRole().toString());
+
         String accessToken = jwtUtil.generateToken(extraClaims, user);
+        String refreshToken = jwtUtil.generateRefreshToken(new HashMap<>(), user);
+
         revokeAllUserTokens(user);
-        saveUserToken(user, accessToken);
+        saveUserToken(user, refreshToken);
 
         return LoginResponse.builder()
                 .accessToken(accessToken)
+                .refreshToken(refreshToken)
                 .role(user.getRole().toString())
                 .build();
     }
 
-    private void saveUserToken(User user, String accessToken) {
+    @Override
+    public LoginResponse refreshToken(String refreshToken) {
+        final String email = jwtUtil.extractUsername(refreshToken);
+        if (email != null) {
+            User user = userRepository.findByEmail(email).orElseThrow();
+
+            // Validate refresh token against DB
+            var isTokenValid = tokenRepository.findByToken(refreshToken)
+                    .map(t -> !t.isExpired() && !t.isRevoked())
+                    .orElse(false);
+
+            if (jwtUtil.isTokenValid(refreshToken, user) && isTokenValid) {
+                Map<String, Object> extraClaims = new HashMap<>();
+                extraClaims.put("role", user.getRole().toString());
+                String accessToken = jwtUtil.generateToken(extraClaims, user);
+
+                return LoginResponse.builder()
+                        .accessToken(accessToken)
+                        .refreshToken(refreshToken)
+                        .role(user.getRole().toString())
+                        .build();
+            }
+        }
+        throw new RuntimeException("Invalid Refresh Token");
+    }
+
+    private void saveUserToken(User user, String refreshToken) {
         var token = Token.builder()
                 .user(user)
-                .token(accessToken)
+                .token(refreshToken)
                 .expired(false)
                 .revoked(false)
                 .build();
