@@ -8,6 +8,4 @@ public interface AuthService {
     String register(RegisterRequest registerRequest);
 
     LoginResponse login(LoginRequest loginRequest);
-
-    String createAdmin();
 }

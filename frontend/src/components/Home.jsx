@@ -1,5 +1,4 @@
 // Home.jsx
-import React from 'react';
 import './Home.css';
 
 const Home = () => {
@@ -8,7 +7,7 @@ const Home = () => {
       <div className="content">
         <h1 className="title">VHub</h1>
         <p className="description">Drive In, Drive Out: Quality Repairs, Every Time</p>
-        
+
       </div>
     </div>
   );

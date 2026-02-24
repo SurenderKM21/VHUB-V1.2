@@ -11,13 +11,7 @@ const Header = () => {
   const location = useLocation();
   const user = useSelector((state) => state.auth.user);
   const admin = useSelector((state) => state.auth.isAdmin);
-
   const [showDropdown, setShowDropdown] = useState(false);
-
-  // Check if we are on a dashboard page
-  const isDashboardPage = location.pathname.startsWith('/admin-dashboard') ||
-    location.pathname.startsWith('/userdashboard');
-
   const handleLogout = () => {
     dispatch(logout());
     navigate("/");
@@ -27,14 +21,13 @@ const Header = () => {
   return (
     <header className="header">
       <div className="logo">
-        {/* Add your logo here */}
       </div>
       <nav className="nav">
         <Link to="/">HOME</Link>
         <Link to="/about">ABOUT US</Link>
         <Link to="/service">SERVICES</Link>
         <Link to="/book">BOOK NOW</Link>
-        {user && !(admin && location.pathname.startsWith('/admin-dashboard')) ? (
+        {user && !location.pathname.startsWith('/admin-dashboard') && !location.pathname.startsWith('/userdashboard') ? (
           <div className="user-menu">
             <FaUserCircle className="user-icon" />
             <div className="user-details" onClick={() => setShowDropdown(!showDropdown)}>

@@ -90,20 +90,4 @@ public class AuthServiceImpl implements AuthService {
         tokenRepository.saveAll(validUserTokens);
     }
 
-    @Override
-    public String createAdmin() {
-        Optional<User> userExist = userRepository.findByEmail("admin@gmail.com");
-        if (userExist.isPresent()) {
-            return "User already exists with email id - admin@gmail.com";
-        }
-
-        var user = User.builder()
-                .name("Admin")
-                .email("admin@gmail.com")
-                .password(passwordEncoder.encode("Admin@123"))
-                .role(Role.Admin) // Admin role
-                .build();
-        userRepository.save(user);
-        return "Admin registered successfully.";
-    }
 }
