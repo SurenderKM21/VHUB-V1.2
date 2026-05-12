@@ -1,7 +1,9 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.request.PasswordChangeRequest;
+import com.example.demo.dto.request.RegisterRequest;
 import com.example.demo.model.User;
+import com.example.demo.enums.Role;
 import com.example.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +23,16 @@ public class UserController {
         return userService.getAllUsers();
     }
 
+    @PostMapping("/mechanic")
+    public String createMechanic(@RequestBody RegisterRequest request) {
+        return userService.createMechanic(request);
+    }
+
+    @GetMapping("/role/{role}")
+    public List<User> getUsersByRole(@PathVariable("role") Role role) {
+        return userService.getUsersByRole(role);
+    }
+
     @GetMapping("/{userId}")
     public User getProfile(@PathVariable("userId") Long userId) {
         return userService.getUserById(userId);
@@ -34,6 +46,12 @@ public class UserController {
     @PatchMapping("/{userId}")
     public User patchUser(@PathVariable("userId") Long userId, @RequestBody Map<String, Object> updates) {
         return userService.partialUpdateUser(userId, updates);
+    }
+
+    @PutMapping("/{userId}/role")
+    public void updateUserRole(@PathVariable("userId") Long userId, @RequestBody Map<String, String> body) {
+        Role newRole = Role.valueOf(body.get("role"));
+        userService.updateUserRole(userId, newRole);
     }
 
     @PutMapping

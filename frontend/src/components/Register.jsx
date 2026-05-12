@@ -49,7 +49,9 @@ const Register = () => {
   };
 
   const validatePassword = (password) => {
-    return password.length >= 8;
+    // Minimum 10 characters, at least one uppercase, one lowercase, one digit, one symbol
+    const passwordPattern = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!_\-`~();:'"<>?,./|*[\]{}\\]).{10,}$/;
+    return passwordPattern.test(password);
   };
 
   const handleSignup = async (e) => {
@@ -207,7 +209,7 @@ const Register = () => {
                 value={formData.password}
                 onChange={handleChange}
                 error={errors.password}
-                helperText={errors.password ? 'Password must be at least 8 characters' : ''}
+                helperText={errors.password ? 'Password must be at least 10 chars, with upper, lower, digit, and symbol' : ''}
                 className="input-field"
                 InputProps={{
                   startAdornment: (

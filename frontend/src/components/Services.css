@@ -1,104 +1,221 @@
-html,
-body {
-  margin: 0;
-  height: 100%;
-}
-
 .service-container {
-  padding: 20px;
+  padding: var(--spacing-2xl);
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .service-title {
   text-align: center;
-  margin-bottom: 20px;
-  color: white;
+  margin-bottom: var(--spacing-2xl);
+  color: var(--text-primary);
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 2.5rem;
 }
 
 .service-card {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding: 10px;
+  height: 100%;
+  background: #0f172a !important; /* Deep Blue-Black for maximum contrast */
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: 20px;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  box-shadow: 0 10px 30px -15px rgba(0, 0, 0, 0.7);
+}
+
+.service-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  border-color: var(--accent-primary);
+  box-shadow: 0 20px 40px -20px rgba(59, 130, 246, 0.4), 0 0 20px rgba(59, 130, 246, 0.2);
+}
+
+.service-card .MuiCardContent-root {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: var(--spacing-xl) !important;
+  align-items: flex-start; /* Left aligned for a more professional look */
+  text-align: left;
 }
 
 .service-icon {
-  font-size: 50px;
-  margin-bottom: 10px;
-  color: #c72813;
+  font-size: 2.8rem;
+  margin-bottom: var(--spacing-lg);
+  color: #60a5fa; /* Explicit light blue */
+  background: rgba(59, 130, 246, 0.1);
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  transition: all 0.3s ease;
+}
+
+.service-card:hover .service-icon {
+  background: var(--accent-primary);
+  color: white;
+  transform: rotate(5deg);
+}
+
+.service-card h2 {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 1.6rem;
+  margin-bottom: var(--spacing-sm);
+  color: #ffffff !important; /* Force pure white */
+  letter-spacing: -0.02em;
+}
+
+.service-description {
+  color: #cbd5e1 !important; /* Light Slate Gray for description visibility */
+  font-size: 1rem;
+  line-height: 1.6;
+  flex-grow: 1;
+  margin-bottom: var(--spacing-md);
+}
+
+.service-cost {
+  margin-top: auto;
+  font-weight: 800;
+  color: #38bdf8 !important; /* Bright sky blue */
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.service-cost::before {
+  content: 'Price:';
+  font-weight: 400;
+  font-size: 0.9rem;
+  color: #94a3b8;
 }
 
 .book-now-button {
-  margin-top: 10px;
-  color: #e81e1b;
+  margin-top: var(--spacing-xl);
+  background: linear-gradient(135deg, #2563eb, #7c3aed) !important;
+  color: white !important;
+  padding: 12px 28px !important;
+  border-radius: 12px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.1em !important;
+  font-weight: 800 !important;
+  font-size: 0.9rem !important;
+  box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4) !important;
+  transition: all 0.3s ease !important;
+  width: 100%;
 }
 
+.book-now-button:hover {
+  filter: brightness(1.2);
+  box-shadow: 0 8px 25px rgba(37, 99, 235, 0.6) !important;
+  transform: translateY(-2px);
+}
 
 .s-body {
-  min-height: 100vh;
-  /* Ensures that the section covers at least the full viewport height */
-  background-image: url('https://i.pinimg.com/originals/77/9a/a1/779aa1794e58f78587fb2d0a5c001.jpg');
-  background-size: cover;
-  /* Ensure the image covers the entire container */
-  background-position: center;
-  /* Center the image */
-  background-repeat: no-repeat;
-  /* Prevent the image from repeating */
-  /* Apply a semi-transparent gradient */
-  background: linear-gradient(rgb(210, 129, 129),
-      /* Start color with opacity */
-      rgba(237, 237, 237, 0.589)
-      /* End color with opacity */
-    ), url('https://www.pixel4k.com/wp-content/uploads/2020/08/novitec-mclaren-720s-front_1596908085.jpg.webp');
-  /* Background image */
-  background-size: cover;
-  /* Ensure the image covers the entire container */
-  background-position: center;
-  /* Center the image */
-  background-repeat: no-repeat;
-  /* Prevent the image from repeating */
+  min-height: calc(100vh - 80px);
+  background: #020617; /* Even darker background */
+  background-image: 
+    radial-gradient(circle at 0% 0%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 100% 100%, rgba(124, 58, 237, 0.08) 0%, transparent 50%);
+  padding: 10px 0 var(--spacing-2xl); /* Even less top padding */
 }
 
-.add-service-button {
-  margin-bottom: 20px;
-  display: block;
-  background-color: #db2b2b;
-  margin-left: auto;
-  margin-right: auto;
-}
+/* Redundant definition removed */
 
 .edit-button,
 .delete-button {
-  margin-top: 10px;
+  margin-top: var(--spacing-sm);
 }
 
 .edit-button {
-  color: #ff9800;
+  color: #fbbf24 !important;
 }
 
 .delete-button {
-  color: #f44336;
+  color: var(--danger) !important;
+}
+
+.service-title-admin {
+  text-align: center;
+  margin-bottom: var(--spacing-lg);
+  color: #ffffff !important;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+/* Admin Card Specifics */
+.admin-service-card {
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  background: rgba(15, 23, 42, 0.8) !important;
+  backdrop-filter: blur(10px);
+}
+
+.admin-actions {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+}
+
+.admin-edit-btn, .admin-delete-btn {
+  background: rgba(15, 23, 42, 0.8) !important;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  padding: 6px !important;
+  transition: all 0.3s ease !important;
+}
+
+.admin-edit-btn:hover {
+  background: #fbbf24 !important;
+  color: #000 !important;
+  border-color: #fbbf24 !important;
+  transform: translateY(-2px);
+}
+
+.admin-delete-btn:hover {
+  background: #ef4444 !important;
+  color: white !important;
+  border-color: #ef4444 !important;
+  transform: translateY(-2px);
+}
+
+
+
+.add-service-button {
+  margin-bottom: var(--spacing-xl);
+  display: block;
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)) !important;
+  color: white !important;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 12px 30px !important;
+  border-radius: 12px !important;
+  font-weight: 700 !important;
+  text-transform: none !important;
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4) !important;
+  transition: all 0.3s ease !important;
+}
+
+.add-service-button:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4) !important;
 }
 
 /* Admin view specific styles */
 .service-container-admin {
   padding: 0;
-  /* Remove padding to prevent extra spacing */
   background: transparent;
-  /* No background for admin view */
   margin-top: 0;
-  /* Remove top margin */
   overflow: visible !important;
-  /* Prevent separate scroll */
   max-height: none !important;
-  /* No height constraint */
   height: auto !important;
-  /* Auto height */
-}
-
-.service-title-admin {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #333;
-  /* Dark color for admin view */
 }

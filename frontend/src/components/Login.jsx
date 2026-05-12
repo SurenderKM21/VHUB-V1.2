@@ -50,8 +50,14 @@ const Login = () => {
           return;
         }
 
+        // Fetch user name after successful login
+        const { data: userData } = await axios.get(`http://localhost:8080/api/users/email/${formData.email}`, {
+          headers: { 'Authorization': `Bearer ${accessToken}` },
+        });
+
         dispatch(login({
           email: formData.email,
+          name: userData.name || formData.email.split('@')[0], // Fallback to email part if name is missing
           token: accessToken,
           role: role,
         }));
@@ -78,7 +84,7 @@ const Login = () => {
         <Paper elevation={0} className="login-paper">
           <Box className="brand-section">
             <Typography variant="h4" className="brand-name">
-              VHUB<span className="brand-dot">.</span>
+              VHUB
             </Typography>
             <Typography variant="body2" sx={{ color: '#64748b', mt: 1 }}>
               {activeTab === 0 ? 'Welcome back! Please enter your details.' : 'Admin secure access portal'}

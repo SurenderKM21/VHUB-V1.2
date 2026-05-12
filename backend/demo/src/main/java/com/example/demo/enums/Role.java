@@ -5,7 +5,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 public enum Role {
         Admin,
-        User;
+        User,
+        Mechanic;
 
         public List<SimpleGrantedAuthority> getAuthorities() {
                 return List.of(new SimpleGrantedAuthority("ROLE_" + this.name()));

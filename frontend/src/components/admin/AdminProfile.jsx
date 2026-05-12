@@ -88,6 +88,13 @@ const AdminProfile = () => {
             return;
         }
 
+        const passwordPattern = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!_\-`~();:'"<>?,./|*[\]{}\\]).{10,}$/;
+        if (!passwordPattern.test(passwords.newPassword)) {
+            toast.error("Password must be at least 10 chars, with upper, lower, digit, and symbol.");
+            return;
+        }
+
+
         try {
             await axios.post(`http://localhost:8080/api/users/${fetchedUser.uid}/change-password`,
                 { oldPassword: passwords.oldPassword, newPassword: passwords.newPassword },
@@ -112,11 +119,11 @@ const AdminProfile = () => {
     return (
         <Box className="user-management-v2">
             <Box className="profile-section-header">
-                <Typography variant="h5" sx={{ fontWeight: 700, mb: 3, display: 'flex', alignItems: 'center' }}>
-                    <FontAwesomeIcon icon={faUser} style={{ marginRight: '12px', color: 'var(--primary-color)' }} />
+                <Typography variant="h4" sx={{ fontWeight: 800, color: 'white', mb: 1, display: 'flex', alignItems: 'center' }}>
+                    <FontAwesomeIcon icon={faUser} style={{ marginRight: '16px', color: '#60a5fa' }} />
                     Admin Profile
                 </Typography>
-                <Typography variant="body2" sx={{ color: 'var(--text-muted)', mt: -2, mb: 4 }}>
+                <Typography variant="body1" sx={{ color: '#94a3b8', mb: 4 }}>
                     Manage your admin account details and security settings
                 </Typography>
             </Box>
@@ -127,9 +134,10 @@ const AdminProfile = () => {
                     sx={{
                         p: { xs: 3, md: 5 },
                         borderRadius: '1.25rem',
-                        border: '1px solid var(--border-color)',
-                        bgcolor: 'white',
-                        mb: 4
+                        border: '1px solid rgba(255, 255, 255, 0.1)',
+                        bgcolor: '#0f172a',
+                        mb: 4,
+                        boxShadow: '0 10px 30px rgba(0, 0, 0, 0.5)'
                     }}
                 >
                     <Box sx={{ textAlign: 'center', mb: 5 }}>
@@ -137,32 +145,32 @@ const AdminProfile = () => {
                             sx={{
                                 width: 90,
                                 height: 90,
-                                bgcolor: 'var(--primary-color)',
+                                background: 'linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))',
                                 fontSize: '2rem',
                                 mx: 'auto',
                                 mb: 2,
-                                boxShadow: '0 8px 16px rgba(220, 38, 38, 0.15)'
+                                boxShadow: '0 8px 16px rgba(59, 130, 246, 0.2)'
                             }}
                         >
                             {getInitials(editableUser.name)}
                         </Avatar>
-                        <Typography variant="h5" sx={{ fontWeight: 700, color: 'var(--text-main)' }}>
+                        <Typography variant="h5" sx={{ fontWeight: 700, color: '#ffffff' }}>
                             {editableUser.name || 'Admin'}
                         </Typography>
-                        <Typography variant="body2" sx={{ color: 'var(--text-muted)' }}>
+                        <Typography variant="body2" sx={{ color: '#94a3b8' }}>
                             {user?.email}
                         </Typography>
                     </Box>
 
-                    <Divider sx={{ mb: 4 }} />
+                    <Divider sx={{ mb: 4, borderColor: 'rgba(255, 255, 255, 0.1)' }} />
 
                     <Box component="form">
-                        <Typography variant="h6" sx={{ fontWeight: 700, mb: 3, color: 'var(--text-main)' }}>
+                        <Typography variant="h6" sx={{ fontWeight: 700, mb: 3, color: 'white' }}>
                             Personal Information
                         </Typography>
                         <Grid container spacing={4}>
                             <Grid item xs={12} md={6}>
-                                <Typography variant="caption" sx={{ fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', mb: 1, display: 'block' }}>
+                                <Typography variant="caption" sx={{ fontWeight: 600, color: '#94a3b8', textTransform: 'uppercase', mb: 1, display: 'block' }}>
                                     Full Name
                                 </Typography>
                                 <TextField
@@ -176,11 +184,19 @@ const AdminProfile = () => {
                                     error={fieldErrors.name}
                                     helperText={fieldErrors.name ? 'Name is required' : ''}
                                     placeholder="Enter your full name"
-                                    sx={{ '& .MuiOutlinedInput-root': { borderRadius: '0.75rem', bgcolor: '#f8fafc' } }}
+                                    sx={{ 
+                                        '& .MuiOutlinedInput-root': { 
+                                            borderRadius: '0.75rem', 
+                                            bgcolor: 'rgba(2, 6, 23, 0.5)', 
+                                            color: 'white',
+                                            '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.1)' },
+                                            '&:hover fieldset': { borderColor: 'rgba(59, 130, 246, 0.5)' },
+                                        } 
+                                    }}
                                 />
                             </Grid>
                             <Grid item xs={12} md={6}>
-                                <Typography variant="caption" sx={{ fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', mb: 1, display: 'block' }}>
+                                <Typography variant="caption" sx={{ fontWeight: 600, color: '#94a3b8', textTransform: 'uppercase', mb: 1, display: 'block' }}>
                                     Phone Number
                                 </Typography>
                                 <TextField
@@ -193,12 +209,20 @@ const AdminProfile = () => {
                                     }}
                                     error={fieldErrors.phone}
                                     helperText={fieldErrors.phone ? 'Phone number must be 10 digits and start with 6, 7, 8, or 9' : ''}
-                                    placeholder="+1 (555) 000-0000"
-                                    sx={{ '& .MuiOutlinedInput-root': { borderRadius: '0.75rem', bgcolor: '#f8fafc' } }}
+                                    placeholder="+91 00000 00000"
+                                    sx={{ 
+                                        '& .MuiOutlinedInput-root': { 
+                                            borderRadius: '0.75rem', 
+                                            bgcolor: 'rgba(2, 6, 23, 0.5)', 
+                                            color: 'white',
+                                            '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.1)' },
+                                            '&:hover fieldset': { borderColor: 'rgba(59, 130, 246, 0.5)' },
+                                        } 
+                                    }}
                                 />
                             </Grid>
                             <Grid item xs={12}>
-                                <Typography variant="caption" sx={{ fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', mb: 1, display: 'block' }}>
+                                <Typography variant="caption" sx={{ fontWeight: 600, color: '#94a3b8', textTransform: 'uppercase', mb: 1, display: 'block' }}>
                                     Complete Address
                                 </Typography>
                                 <TextField
@@ -214,7 +238,15 @@ const AdminProfile = () => {
                                     error={fieldErrors.address}
                                     helperText={fieldErrors.address ? 'Address is required' : ''}
                                     placeholder="Enter your street address, city, state, and zip"
-                                    sx={{ '& .MuiOutlinedInput-root': { borderRadius: '0.75rem', bgcolor: '#f8fafc' } }}
+                                    sx={{ 
+                                        '& .MuiOutlinedInput-root': { 
+                                            borderRadius: '0.75rem', 
+                                            bgcolor: 'rgba(2, 6, 23, 0.5)', 
+                                            color: 'white',
+                                            '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.1)' },
+                                            '&:hover fieldset': { borderColor: 'rgba(59, 130, 246, 0.5)' },
+                                        } 
+                                    }}
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -229,7 +261,12 @@ const AdminProfile = () => {
                                             fontWeight: 700,
                                             textTransform: 'none',
                                             fontSize: '1rem',
-                                            boxShadow: '0 4px 12px rgba(220, 38, 38, 0.25)'
+                                            background: 'linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))',
+                                            boxShadow: '0 4px 15px rgba(59, 130, 246, 0.3)',
+                                            '&:hover': {
+                                                filter: 'opacity(0.9)',
+                                                transform: 'translateY(-1px)'
+                                            }
                                         }}
                                     >
                                         Update Info
@@ -245,21 +282,22 @@ const AdminProfile = () => {
                     sx={{
                         p: { xs: 3, md: 5 },
                         borderRadius: '1.25rem',
-                        border: '1px solid var(--border-color)',
-                        bgcolor: 'white'
+                        border: '1px solid rgba(255, 255, 255, 0.1)',
+                        bgcolor: '#0f172a',
+                        boxShadow: '0 10px 30px rgba(0, 0, 0, 0.5)'
                     }}
                 >
                     <Box component="form">
-                        <Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: 'var(--text-main)' }}>
+                        <Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: 'white' }}>
                             Security
                         </Typography>
-                        <Typography variant="body2" sx={{ color: 'var(--text-muted)', mb: 4 }}>
+                        <Typography variant="body2" sx={{ color: '#94a3b8', mb: 4 }}>
                             Update your password to keep your account secure
                         </Typography>
 
                         <Grid container spacing={4}>
                             <Grid item xs={12}>
-                                <Typography variant="caption" sx={{ fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', mb: 1, display: 'block' }}>
+                                <Typography variant="caption" sx={{ fontWeight: 600, color: '#94a3b8', textTransform: 'uppercase', mb: 1, display: 'block' }}>
                                     Current Password
                                 </Typography>
                                 <TextField
@@ -269,11 +307,19 @@ const AdminProfile = () => {
                                     value={passwords.oldPassword}
                                     onChange={(e) => setPasswords({ ...passwords, oldPassword: e.target.value })}
                                     placeholder="Enter current password"
-                                    sx={{ '& .MuiOutlinedInput-root': { borderRadius: '0.75rem', bgcolor: '#f8fafc' } }}
+                                    sx={{ 
+                                        '& .MuiOutlinedInput-root': { 
+                                            borderRadius: '0.75rem', 
+                                            bgcolor: 'rgba(2, 6, 23, 0.5)', 
+                                            color: 'white',
+                                            '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.1)' },
+                                            '&:hover fieldset': { borderColor: 'rgba(59, 130, 246, 0.5)' },
+                                        } 
+                                    }}
                                 />
                             </Grid>
                             <Grid item xs={12} md={6}>
-                                <Typography variant="caption" sx={{ fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', mb: 1, display: 'block' }}>
+                                <Typography variant="caption" sx={{ fontWeight: 600, color: '#94a3b8', textTransform: 'uppercase', mb: 1, display: 'block' }}>
                                     New Password
                                 </Typography>
                                 <TextField
@@ -283,11 +329,19 @@ const AdminProfile = () => {
                                     value={passwords.newPassword}
                                     onChange={(e) => setPasswords({ ...passwords, newPassword: e.target.value })}
                                     placeholder="Enter new password"
-                                    sx={{ '& .MuiOutlinedInput-root': { borderRadius: '0.75rem', bgcolor: '#f8fafc' } }}
+                                    sx={{ 
+                                        '& .MuiOutlinedInput-root': { 
+                                            borderRadius: '0.75rem', 
+                                            bgcolor: 'rgba(2, 6, 23, 0.5)', 
+                                            color: 'white',
+                                            '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.1)' },
+                                            '&:hover fieldset': { borderColor: 'rgba(59, 130, 246, 0.5)' },
+                                        } 
+                                    }}
                                 />
                             </Grid>
                             <Grid item xs={12} md={6}>
-                                <Typography variant="caption" sx={{ fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', mb: 1, display: 'block' }}>
+                                <Typography variant="caption" sx={{ fontWeight: 600, color: '#94a3b8', textTransform: 'uppercase', mb: 1, display: 'block' }}>
                                     Confirm New Password
                                 </Typography>
                                 <TextField
@@ -297,7 +351,15 @@ const AdminProfile = () => {
                                     value={passwords.confirmPassword}
                                     onChange={(e) => setPasswords({ ...passwords, confirmPassword: e.target.value })}
                                     placeholder="Confirm new password"
-                                    sx={{ '& .MuiOutlinedInput-root': { borderRadius: '0.75rem', bgcolor: '#f8fafc' } }}
+                                    sx={{ 
+                                        '& .MuiOutlinedInput-root': { 
+                                            borderRadius: '0.75rem', 
+                                            bgcolor: 'rgba(2, 6, 23, 0.5)', 
+                                            color: 'white',
+                                            '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.1)' },
+                                            '&:hover fieldset': { borderColor: 'rgba(59, 130, 246, 0.5)' },
+                                        } 
+                                    }}
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -313,9 +375,12 @@ const AdminProfile = () => {
                                             fontWeight: 700,
                                             textTransform: 'none',
                                             fontSize: '1rem',
-                                            boxShadow: '0 4px 12px rgba(220, 38, 38, 0.25)',
-                                            bgcolor: '#334155', // Slate color for security secondary action
-                                            '&:hover': { bgcolor: '#1e293b' }
+                                            background: 'linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))',
+                                            boxShadow: '0 4px 15px rgba(59, 130, 246, 0.3)',
+                                            '&:hover': {
+                                                filter: 'opacity(0.9)',
+                                                transform: 'translateY(-1px)'
+                                            }
                                         }}
                                     >
                                         Change Password

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import './AdminDashboard.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTachometerAlt, faCalendarCheck, faUser, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { faTachometerAlt, faCalendarCheck, faUser, faSignOutAlt, faFileInvoiceDollar } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '../features/auth/authSlice';
@@ -10,6 +10,7 @@ import { logout } from '../features/auth/authSlice';
 import UserOverview from './user/UserOverview';
 import BookingHistory from './user/BookingHistory';
 import UserProfile from './user/UserProfile';
+import ServiceHistory from './user/ServiceHistory';
 
 const UserDashboard = () => {
   const [activeSection, setActiveSection] = useState(() => {
@@ -34,6 +35,8 @@ const UserDashboard = () => {
         return <UserOverview />;
       case 'bookings':
         return <BookingHistory />;
+      case 'history':
+        return <ServiceHistory />;
       case 'profile':
         return <UserProfile />;
       default:
@@ -52,6 +55,9 @@ const UserDashboard = () => {
 
           <li onClick={() => setActiveSection('bookings')} className={activeSection === 'bookings' ? 'active' : ''}>
             <FontAwesomeIcon icon={faCalendarCheck} className="icon" /> Booking Management
+          </li>
+          <li onClick={() => setActiveSection('history')} className={activeSection === 'history' ? 'active' : ''}>
+            <FontAwesomeIcon icon={faFileInvoiceDollar} className="icon" /> Service History
           </li>
           <li onClick={() => setActiveSection('profile')} className={activeSection === 'profile' ? 'active' : ''}>
             <FontAwesomeIcon icon={faUser} className="icon" /> Profile

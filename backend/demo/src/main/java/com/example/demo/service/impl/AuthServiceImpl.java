@@ -19,6 +19,7 @@ import com.example.demo.repo.JwtRepo;
 import com.example.demo.repo.UserRepo;
 import com.example.demo.service.AuthService;
 import com.example.demo.utils.JwtToken;
+import com.example.demo.utils.PasswordValidator;
 
 import lombok.RequiredArgsConstructor;
 
@@ -32,12 +33,19 @@ public class AuthServiceImpl implements AuthService {
     private final AuthenticationManager authenticationManager;
     private final JwtToken jwtUtil;
 
+    private final PasswordValidator passwordValidator;
+
     @Override
     public String register(RegisterRequest registerRequest) {
         Optional<User> userExist = userRepository.findByEmail(registerRequest.getEmail());
         if (userExist.isPresent()) {
             return "User already exists with email id " + registerRequest.getEmail();
         }
+
+        if (!passwordValidator.isValid(registerRequest.getPassword())) {
+            return "Password must be at least 10 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one symbol.";
+        }
+
         var user = User.builder()
                 .name(registerRequest.getName())
                 .email(registerRequest.getEmail())

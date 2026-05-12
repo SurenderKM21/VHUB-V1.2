@@ -68,9 +68,12 @@ const Profile = () => {
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-    if (formData.password && formData.password.length < 8) {
-      toast.error("Password must be at least 8 characters long.");
-      return;
+    if (formData.password) {
+      const passwordPattern = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!_\-`~();:'"<>?,./|*[\]{}\\]).{10,}$/;
+      if (!passwordPattern.test(formData.password)) {
+        toast.error("Password must be at least 10 chars, with upper, lower, digit, and symbol.");
+        return;
+      }
     }
 
     try {

@@ -52,6 +52,8 @@ const BookingHistory = () => {
                                 <th>Problem Description</th>
                                 <th>Date</th>
                                 <th>Time</th>
+                                <th>Status</th>
+                                <th>Assigned Mechanic</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -63,6 +65,16 @@ const BookingHistory = () => {
                                     <td>{booking.problemDescription}</td>
                                     <td>{booking.date}</td>
                                     <td>{booking.time}</td>
+                                    <td>
+                                        <span style={{
+                                            backgroundColor: booking.status === 'Completed' ? 'rgba(34, 197, 94, 0.15)' : booking.status === 'In Progress' ? 'rgba(234, 179, 8, 0.15)' : 'rgba(255, 255, 255, 0.1)',
+                                            color: booking.status === 'Completed' ? '#4ade80' : booking.status === 'In Progress' ? '#facc15' : '#cbd5e1',
+                                            padding: '4px 8px', borderRadius: '4px', fontSize: '0.85rem', fontWeight: 600
+                                        }}>
+                                            {booking.status || 'Pending'}
+                                        </span>
+                                    </td>
+                                    <td>{booking.mechanicName && booking.mechanicName !== "Unassigned" ? booking.mechanicName : "Not Assigned"}</td>
                                 </tr>
                             ))}
                         </tbody>

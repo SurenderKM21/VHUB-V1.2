@@ -12,6 +12,7 @@ import Services from './Services';
 // Import extracted components
 import DashboardOverview from './admin/DashboardOverview';
 import UserManagement from './admin/UserManagement';
+import MechanicManagement from './admin/MechanicManagement';
 import BookingManagement from './admin/BookingManagement';
 import AdminProfile from './admin/AdminProfile';
 
@@ -38,6 +39,8 @@ const AdminDashboard = () => {
         return <DashboardOverview />;
       case 'users':
         return <UserManagement />;
+      case 'mechanics':
+        return <MechanicManagement />;
       case 'bookings':
         return <BookingManagement />;
       case 'services':
@@ -50,8 +53,8 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div className="admin-dashboard">
-      <div className="admin-side-panel">
+    <div className="admin-dashboard admin-only-dashboard">
+      <div className="admin-side-panel admin-only-panel">
         <h2>Admin Panel</h2>
         <ul>
           <li onClick={() => setActiveSection('dashboard')} className={activeSection === 'dashboard' ? 'active' : ''}>
@@ -59,6 +62,9 @@ const AdminDashboard = () => {
           </li>
           <li onClick={() => setActiveSection('users')} className={activeSection === 'users' ? 'active' : ''}>
             <FontAwesomeIcon icon={faUsers} className="icon" /> User Management
+          </li>
+          <li onClick={() => setActiveSection('mechanics')} className={activeSection === 'mechanics' ? 'active' : ''}>
+            <FontAwesomeIcon icon={faTools} className="icon" /> Mechanic Management
           </li>
           <li onClick={() => setActiveSection('bookings')} className={activeSection === 'bookings' ? 'active' : ''}>
             <FontAwesomeIcon icon={faCalendarCheck} className="icon" /> Booking Management

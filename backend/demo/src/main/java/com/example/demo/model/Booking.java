@@ -25,6 +25,12 @@ public class Booking {
     private String problemDescription;
     private String date;
     private String time;
+    
+    private String status = "Pending";
+
+    @ManyToOne
+    @JoinColumn(name = "mechanic_id")
+    private User mechanic;
 
     // Derived from the linked User — not stored in DB
     public String getName() {
@@ -37,5 +43,9 @@ public class Booking {
 
     public String getPhone() {
         return user != null ? user.getPhone() : null;
+    }
+
+    public String getMechanicName() {
+        return mechanic != null ? mechanic.getName() : "Unassigned";
     }
 }
